@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>GAmE</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="game.js"></script>
+    <script src="main.js"></script>
+</head>
+<body>
+    <div id="content">
+        <img src="img/default.jpg" alt="" id="bgr">
+        <div id="items"></div>
+        <div id="quest" class="hide">
+            <p id="quest-header"></p>
+            <div id="task-list">
+            </div>
+        </div>
+        <div id="minimap" class="hide">
+            <img onclick="move('hq')" src="img/minimap/minimap_boss.png" title="Босс" style="position: absolute; width: 30px; left: 47px; top: 13px;">
+            <img onclick="move('office')" src="img/minimap/minimap_office.png" title="Офис" style="position: absolute; width: 30px; left: 47px; top: 53px;">
+            <img onclick="move('server')" src="img/minimap/minimap_server_room.png" title="Серверная" style="position: absolute; width: 30px; left: 47px; top: 93px;">
+            <img onclick="move('shop')" src="img/minimap/minimap_shop.png" title="Магазин" style="position: absolute; width: 30px; left: 97px; top: 93px;">
+        </div>
+        <div id="back" class="hide" onclick=back()></div>
+        <div id="textbox" class="hide"></div>
+    </div>
+</body>
+</html>

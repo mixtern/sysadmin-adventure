@@ -1,0 +1,102 @@
+*{
+    margin:0;
+    padding:0;
+    background-color: transparent;
+    user-select: none; 
+}
+.hide{
+    display: none !important;
+}
+html,body,div#content,img#bgr{
+    width: 100%;
+    height: 100%;
+    overflow:hidden;
+}
+div{
+    border:1px solid black;
+    box-sizing: border-box;
+    float: left;
+    width:100%;
+    height: 100%;
+}
+div#textbox{
+    background-color: rgba(255, 255, 255, 0.6);
+    position: fixed;
+    width:100%;
+    height: 25%;
+    min-height: fit-content;
+    font-size: 36px;
+    bottom: 0;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-family: 'Courier New', Courier, monospace;
+    border-radius: 5vh;
+}
+div#items,.item{
+    pointer-events: none;
+    top:0;
+    left:0;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+.item:not(.active){
+    filter: drop-shadow(0 0 3px rgba(0,0,0,1));
+}
+.item.active{
+    filter: drop-shadow(-1px 1px #6f0) drop-shadow(1px 1px #6f0) drop-shadow(1px -1px #6f0) drop-shadow(-1px -1px #6f0);
+    pointer-events: all;
+}
+div#minimap{
+    position:fixed;
+    top:10px;
+    right:10px;
+    background-image: url("img/minimap/minimap_background.png");
+    background-size: 150px 150px;
+    width:150px;
+    height:150px;
+}
+div#back{
+    position:fixed;
+    top:10px;
+    right:10px;
+    background-image: url("img/back.png");
+    background-size: 30px 30px;
+    width:30px;
+    height:30px;
+}
+div#quest {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 200px;
+    width: 300px;
+    background-color: #afdafc88;
+}
+p#quest-header {
+    width: 100%;
+    height: 70px;
+    font-size: 28px;
+    text-align: center;
+    font-weight: bold;
+    text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white;
+    color: black;
+}
+div#task-list {
+    height: 130px;
+}
+div.quest-item{
+    color:#120A8f;
+    display: list-item;
+    margin-left: 30px;
+    width:calc(100% - 10px);
+    height:25%;
+    border:none;
+    list-style-image: url("img/todo.png");
+}
+div.quest-item.finished{
+    list-style-image: url("img/done.png");
+}
