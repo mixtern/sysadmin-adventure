@@ -1,0 +1,7 @@
+{
+    "background":"img/boss_room/boss_room_background.png",
+    "items":[
+        {"src":"img/boss_room/boss_room_boss.png"},
+        {"src":"img/boss_room/boss_room_chair.png"},
+        {"src":"img/boss_room/boss_room_pc.png"}]
+}

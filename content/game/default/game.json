@@ -1,0 +1,19 @@
+{
+    "locations":["office","officePC","server","hq","shop"],
+    "default":"hq",
+    "script":[
+        {"type":"gui","args":false, "continue":true},
+        {"type":"location","args":"hq","continue":true},
+        {"type":"textbox","args":"Добро пожаловать в нашу компанию!"},
+        {"type":"textbox","args":"Наша компания сейчас активно растёт, и мы решили переехать в этот новый офис"},
+        {"type":"textbox","args":"Твоя задача - подготовить офис к работе, вперёд!"},
+        {"type":"textbox","args":"","continue":true},
+        {"type":"gui","args":true,"continue":true},
+        {"type":"quest","args":{
+            "name":"Подготовить компьютеры в офисе","tasks":[
+                {"name":"подключить компьютеры к сети", "current":0, "max":2},
+                {"name":"доложить боссу","current":0,"max":1}]
+            }
+        }
+    ]
+}

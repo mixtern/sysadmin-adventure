@@ -1,0 +1,11 @@
+{
+    "background":"img/office/office_background.png",
+    "items":[
+        {"src":"img/office/office_desk_0L.png"},
+        {"src":"img/office/office_desk_0R.png"},
+        {"src":"img/office/office_desk_1L.png"},
+        {"src":"img/office/office_desk_1R.png"},
+        {"src":"img/office/office_desk_2L.png"},
+        {"src":"img/office/office_desk_2R.png"}],
+    "script":"office.js"
+}

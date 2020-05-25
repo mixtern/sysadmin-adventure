@@ -77,13 +77,17 @@
 // //         items:[{src:"img/items/lol.png"}]
 // //     }
 // // }
+
+
 // //game logic
+
 // // function meme_test(){
 // //     scriptQueue.push({type:"location",args:"meme",continue:true})
 // //     scriptQueue.push({type:"textbox",args:"chill dude",continue:false})
 // //     scriptQueue.push({type:"textbox",args:"",continue:false})
 // //     scriptQueue.push({type:"textbox",args:"wow, such meme",continue:false})
 // // }
+
 // function skipClick(e){
 //     switch(e.type){
 //         case "click":
@@ -95,6 +99,7 @@
 //             break;
 //     }
 // }
+
 // function textbox(text){
 //     var box = document.getElementById("textbox");
 //     if(text == undefined || text.length == 0){
@@ -104,6 +109,7 @@
 //     box.classList.remove("hide")
 //     box.innerHTML = text;
 // }
+
 // function minimap(enabled){
 //     var map = document.getElementById("minimap");
 //     minimapEnabled = !!enabled
@@ -113,6 +119,7 @@
 //     }
 //     map.classList.remove("hide")
 // }
+
 // function back(location){
 //     var b = document.getElementById("back")
 //     if(location == undefined || location.length == 0){
@@ -124,11 +131,13 @@
 //     previousLocation = location;
 //     b.classList.remove("hide");
 // }
+
 // function move(name){
 //     if(!minimapEnabled || !(name in locations))
 //         return;
 //     changeLocation(name)
 // }
+
 // function changeLocation(name:string){
 //     if(!(name in locations))
 //         return;
@@ -138,6 +147,7 @@
 //     if(locations[name].onload)
 //         locations[name].onload();
 // }
+
 // function loadItems(){
 //     var items = document.getElementById("items");
 //     items.innerHTML = "";
@@ -173,11 +183,12 @@
 //         image.src = item.src;
 //     });
 // }
+
 var game;
-window.addEventListener("load", function () {
+window.addEventListener("load",()=> {
     var l = new Loader();
     //l.onEmptyCallbacks.push(()=>console.log('no shit sherlock   '))
-    game = l.getGame(new URL('/content/game/default/game.json', window.location.href).href);
+    game = l.getGame(new URL('/content/game/default/game.json',window.location.href).href)
 });
 // window.addEventListener("keydown",skipClick)
 // window.addEventListener("click",skipClick)
