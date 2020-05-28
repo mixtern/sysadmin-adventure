@@ -2,5 +2,5 @@
     "background":"img/server_room/server_room_background.png",
     "items":[
         {"src":"img/server_room/server_room_server.png"},
-        {"src":"img/server_room/server_room_.png"}]
+        {"src":"img/server_room/server_room_table.png"}]
 }

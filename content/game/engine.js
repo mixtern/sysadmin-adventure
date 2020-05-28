@@ -1,3 +1,4 @@
+var LOAD_DELAY = 200;
 var Status;
 (function (Status) {
     Status[Status["LOADING"] = 0] = "LOADING";
@@ -7,17 +8,30 @@ var Status;
 })(Status || (Status = {}));
 var Loader = /** @class */ (function () {
     function Loader() {
+        this.onEmptyCallbacks = [];
         var queue = [];
-        ['pop', 'push', 'reverse', 'shift', 'unshift', 'splice', 'sort', 'filter'].forEach(function (m) {
+        var ldr = this;
+        ['pop', 'push', 'splice', 'filter'].forEach(function (m) {
             queue[m] = function () {
                 var res = Array.prototype[m].apply(queue, arguments);
-                // if(queue.length == 0)
-                //     this.onEmptyCallbacks.forEach((callback:Function) => {
-                //         callback();
-                //     });
+                if (ldr.queue.length == 0) {
+                    ldr.onEmptyCallbacks.forEach(function (callback) {
+                        callback();
+                    });
+                }
                 return res;
             };
         });
+        Array.prototype["remove"] = function (item) {
+            var L = this.length, ax;
+            while (L && this.length) {
+                item = this[--L];
+                while ((ax = this.indexOf(item)) !== -1) {
+                    this.splice(ax, 1);
+                }
+            }
+            return this;
+        };
         this.queue = queue;
     }
     ;
@@ -36,7 +50,9 @@ var Loader = /** @class */ (function () {
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 game.init(JSON.parse(xhr.responseText));
-                _this.queue = _this.queue.filter(function (value) { return value == url; });
+                setTimeout(function () {
+                    _this.queue["remove"](url);
+                }, LOAD_DELAY);
             }
         };
         game.Script = null;
@@ -46,21 +62,33 @@ var Loader = /** @class */ (function () {
         var _this = this;
         this.queue.push(url);
         var xhr = this.get(url);
-        var loc = new GameLocation();
+        var loc = new GameLocation(this);
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 loc.init(JSON.parse(xhr.responseText));
-                _this.queue = _this.queue.filter(function (value) { return value == url; });
+                setTimeout(function () {
+                    _this.queue["remove"](url);
+                }, LOAD_DELAY);
             }
         };
+        return loc;
     };
-    Loader.prototype.getImage = function (config) {
+    Loader.prototype.getImage = function (url) {
+        var _this = this;
+        var img = new Image();
+        this.queue.push(url);
+        img.addEventListener("load", function () { return setTimeout(function () {
+            _this.queue["remove"](url);
+        }, LOAD_DELAY); });
+        img.src = url;
+        return img;
     };
     return Loader;
 }());
 ;
 var Game = /** @class */ (function () {
     function Game(loader, url) {
+        this.isMapReady = false;
         this.Loader = loader;
         this.Locations = new Map();
         this.URL = url;
@@ -68,21 +96,78 @@ var Game = /** @class */ (function () {
     Game.prototype.init = function (data) {
         var _this = this;
         this.Script = data["Script"];
+        this.Loader.onEmptyCallbacks.push(function () {
+            var t = _this;
+            t.loadLocation(t.CurrentLocation);
+            console.log('STARTING DEFAULT LOCATION');
+        });
         data["locations"].forEach(function (name) {
-            var locationUrl = new URL("./locations/" + name + ".json", _this.URL);
+            var locationUrl = new URL("./locations/" + name + ".json", _this.URL).href;
             _this.Locations[name] = _this.Loader.getGameLocation(locationUrl);
+        });
+        this.mapData = data["map"];
+        this.CurrentLocation = data["default"];
+    };
+    Game.prototype.loadMap = function () {
+        if (this.isMapReady)
+            return;
+        this.isMapReady = true;
+    };
+    Game.prototype.loadLocation = function (name) {
+        this.loadMap();
+        this.CurrentLocation = name;
+        var loc = this.Locations[this.CurrentLocation];
+        var bgr = document.getElementById("background");
+        DrawingTool.prototype.putImage(bgr, loc.background);
+        loc.items.forEach(function (item) {
+            var cnv = DrawingTool.prototype.createCanvas(item["name"]);
+            document.getElementById("items").appendChild(cnv);
+            DrawingTool.prototype.putImage(cnv, loc.images[item["src"]]);
         });
     };
     return Game;
 }());
 var GameLocation = /** @class */ (function () {
-    function GameLocation() {
+    function GameLocation(loader) {
+        this.loader = loader;
         this.images = new Map();
         this.status = Status.LOADING;
     }
     GameLocation.prototype.init = function (data) {
+        var _this = this;
+        this.items = data["items"];
+        data["items"].forEach(function (item) {
+            var key = !!item.id ? item["id"] : item["src"];
+            _this.images[key] = _this.loader.getImage(item["src"]);
+        });
+        this.background = this.loader.getImage(data["background"]);
     };
     return GameLocation;
+}());
+var DrawingTool = /** @class */ (function () {
+    function DrawingTool() {
+    }
+    DrawingTool.prototype.putImage = function (canvas, image, posX, posY, width, height) {
+        if (posX === void 0) { posX = 0; }
+        if (posY === void 0) { posY = 0; }
+        if (width === void 0) { width = NaN; }
+        if (height === void 0) { height = NaN; }
+        this.prepare(canvas);
+        canvas.getContext("2d").drawImage(image, posX, posY, isNaN(width) ? canvas.width : width, isNaN(height) ? canvas.height : height);
+    };
+    DrawingTool.prototype.prepare = function (canvas) {
+        var computed = window.getComputedStyle(canvas);
+        canvas.width = parseInt(computed.width);
+        canvas.height = parseInt(computed.height);
+        var ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    };
+    DrawingTool.prototype.createCanvas = function (id) {
+        var cnv = document.createElement('canvas');
+        cnv.id = id;
+        return cnv;
+    };
+    return DrawingTool;
 }());
 // class Quest{
 // }

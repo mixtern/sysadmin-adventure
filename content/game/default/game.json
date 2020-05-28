@@ -2,7 +2,7 @@
     "locations":["office","officePC","server","hq","shop"],
     "default":"hq",
     "script":[
-        {"type":"gui","args":false, "continue":true},
+        {"type":"showgui","args":false, "continue":true},
         {"type":"location","args":"hq","continue":true},
         {"type":"textbox","args":"Добро пожаловать в нашу компанию!"},
         {"type":"textbox","args":"Наша компания сейчас активно растёт, и мы решили переехать в этот новый офис"},
@@ -15,5 +15,19 @@
                 {"name":"доложить боссу","current":0,"max":1}]
             }
         }
-    ]
+    ],
+    "map":{
+        "background":"",
+        "size":{
+            "width":150,
+            "height":150
+        },
+        "mapItems":[
+            {
+                "location":"hq",
+                "title":"Босс",
+                "x":,"y":,"width":,"height":,"src":
+            }
+        ]
+    }
 }
