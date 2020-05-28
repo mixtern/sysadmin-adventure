@@ -1,4 +1,4 @@
-const LOAD_DELAY = 200;
+const LOAD_DELAY = 500;
 
 enum Status {
     LOADING,

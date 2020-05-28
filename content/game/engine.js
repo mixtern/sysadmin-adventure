@@ -1,4 +1,4 @@
-var LOAD_DELAY = 200;
+var LOAD_DELAY = 500;
 var Status;
 (function (Status) {
     Status[Status["LOADING"] = 0] = "LOADING";
