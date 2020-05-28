@@ -145,8 +145,8 @@ button.fullscreen{
     width:30px;
     height:30px;
     background-size:25px 25px;
-    background-image: url("img/full.png");
+    background-image: url("img/fullscreen-svgrepo-com.svg");
 }
 button.fullscreen.pressed{
-    background-image: url("img/unfull.png");
+    background-image: url("img/decrease-size-svgrepo-com.svg");
 }

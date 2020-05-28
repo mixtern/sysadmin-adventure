@@ -1,4 +1,8 @@
 {
+    "gameResolution":{
+        "width":3200,
+        "height":1800
+    },
     "locations":["office","officePC","server","hq","shop"],
     "default":"hq",
     "script":[

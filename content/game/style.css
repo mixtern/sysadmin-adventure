@@ -12,6 +12,17 @@ html,body,div#content,img#bgr,canvas{
     height: 100%;
     overflow:hidden;
 }
+div#content{
+    width: 100vw; 
+    height: 56.25vw; /* height:width ratio = 9/16 = .5625  */
+    background: pink;
+    max-height: 100vh;
+    max-width: 177.78vh; /* 16/9 = 1.778 */
+    margin: auto;
+    position: absolute;
+    top:0;bottom:0; /* vertical center */
+    left:0;right:0; /* horizontal center */
+}
 div{
     border:1px solid black;
     box-sizing: border-box;
@@ -51,7 +62,7 @@ div#items,.item{
     pointer-events: all;
 }
 div#minimap{
-    position:fixed;
+    position: absolute;;
     top:10px;
     right:10px;
     background-size: 100% 100%;
@@ -96,4 +107,17 @@ div.quest-item{
 }
 div.quest-item.finished{
     list-style-image: url("img/done.png");
+}
+button.fullscreen{
+    position: absolute;
+    bottom:0;
+    right:0;
+    border:0;
+    width:25px;
+    height:25px;
+    background-size:25px 25px;
+    background-image: url("img/fullscreen-svgrepo-com.svg");
+}
+button.fullscreen.pressed{
+    background-image: url("img/decrease-size-svgrepo-com.svg");
 }

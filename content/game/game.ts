@@ -191,5 +191,21 @@ window.addEventListener("load",()=> {
     //l.onEmptyCallbacks.push(()=>console.log('no shit sherlock   '))
     game = l.getGame(new URL('/content/game/default/game.json',window.location.href).href)
 });
+
+function full() {
+    var button = document.getElementById("fs");
+    var cont = document.getElementById("content");
+    if(cont.classList.contains("fullscreen")) {
+        button.classList.remove("pressed");
+        cont.classList.remove("fullscreen");
+        document.exitFullscreen();
+    }
+    else {
+        button.classList.add("pressed")
+        cont.classList.add("fullscreen")
+        cont.requestFullscreen();
+    }
+}
+
 // window.addEventListener("keydown",skipClick)
 // window.addEventListener("click",skipClick)
