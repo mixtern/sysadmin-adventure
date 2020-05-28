@@ -99,6 +99,17 @@ class Game {
     CurrentLocation:string;
     mapData: object;
     isMapReady:boolean = false;
+    
+    set showMinimap(b:boolean){
+        var map = document.getElementById("minimap");
+        if(b)
+            map.classList.remove("hide");
+        else map.classList.add("hide");
+    }
+
+    get showMinimap(){
+        return document.getElementById("minimap").classList.contains("hide");
+    }
 
     constructor(loader, url) {
         this.Loader = loader;
@@ -124,6 +135,23 @@ class Game {
     loadMap(){
         if(this.isMapReady)
             return;
+        var map = document.getElementById("minimap");
+        map.style.backgroundImage = `url("${this.mapData["background"]}")`;
+        map.style.width = this.mapData["size"]["width"]+"px";
+        map.style.height = this.mapData["size"]["height"]+"px";
+        this.mapData["mapItems"].forEach(mapItem =>{
+            var img = document.createElement("img") as HTMLImageElement;
+            img.style.position = "absolute";
+            img.style.left = mapItem["x"]+'px';
+            img.style.top = mapItem["y"]+'px';
+            img.style.width = mapItem["width"]+'px';
+            img.style.height = mapItem["height"]+'px';
+            img.src = mapItem["src"];
+            img.addEventListener("click",()=>{
+                this.loadLocation(mapItem["location"]);
+            })
+            map.appendChild(img);
+        });
         this.isMapReady = true;
     }
 
@@ -133,9 +161,11 @@ class Game {
         var loc = this.Locations[this.CurrentLocation] as GameLocation;
         var bgr = document.getElementById("background") as HTMLCanvasElement;
         DrawingTool.prototype.putImage(bgr,loc.background);
+        var items = document.getElementById("items");
+        items.innerHTML ='';
         loc.items.forEach(item => {
            var cnv = DrawingTool.prototype.createCanvas(item["name"]);
-           document.getElementById("items").appendChild(cnv);
+           items.appendChild(cnv);
            DrawingTool.prototype.putImage(cnv,loc.images[item["src"]]);
         });
     }

@@ -17,7 +17,7 @@
         }
     ],
     "map":{
-        "background":"",
+        "background":"img/minimap/minimap_background.png",
         "size":{
             "width":150,
             "height":150
@@ -26,7 +26,38 @@
             {
                 "location":"hq",
                 "title":"Босс",
-                "x":,"y":,"width":,"height":,"src":
+                "x":47,
+                "y":13,
+                "width":30,
+                "height":30,
+                "src":"img/minimap/minimap_boss.png"
+            },
+            {
+                "location":"office",
+                "title":"Офис",
+                "x":47,
+                "y":53,
+                "width":30,
+                "height":30,
+                "src":"img/minimap/minimap_office.png"
+            },
+            {
+                "location":"server",
+                "title":"Серверная",
+                "x":47,
+                "y":93,
+                "width":30,
+                "height":30,
+                "src":"img/minimap/minimap_server_room.png"
+            },
+            {
+                "location":"shop",
+                "title":"Магазин",
+                "x":97,
+                "y":93,
+                "width":30,
+                "height":30,
+                "src":"img/minimap/minimap_shop.png"
             }
         ]
     }

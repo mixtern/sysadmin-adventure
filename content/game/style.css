@@ -54,10 +54,7 @@ div#minimap{
     position:fixed;
     top:10px;
     right:10px;
-    background-image: url("img/minimap/minimap_background.png");
-    background-size: 150px 150px;
-    width:150px;
-    height:150px;
+    background-size: 100% 100%;
 }
 div#back{
     position:fixed;

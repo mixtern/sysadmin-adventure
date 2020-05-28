@@ -93,6 +93,20 @@ var Game = /** @class */ (function () {
         this.Locations = new Map();
         this.URL = url;
     }
+    Object.defineProperty(Game.prototype, "showMinimap", {
+        get: function () {
+            return document.getElementById("minimap").classList.contains("hide");
+        },
+        set: function (b) {
+            var map = document.getElementById("minimap");
+            if (b)
+                map.classList.remove("hide");
+            else
+                map.classList.add("hide");
+        },
+        enumerable: false,
+        configurable: true
+    });
     Game.prototype.init = function (data) {
         var _this = this;
         this.Script = data["Script"];
@@ -109,8 +123,26 @@ var Game = /** @class */ (function () {
         this.CurrentLocation = data["default"];
     };
     Game.prototype.loadMap = function () {
+        var _this = this;
         if (this.isMapReady)
             return;
+        var map = document.getElementById("minimap");
+        map.style.backgroundImage = "url(\"" + this.mapData["background"] + "\")";
+        map.style.width = this.mapData["size"]["width"] + "px";
+        map.style.height = this.mapData["size"]["height"] + "px";
+        this.mapData["mapItems"].forEach(function (mapItem) {
+            var img = document.createElement("img");
+            img.style.position = "absolute";
+            img.style.left = mapItem["x"] + 'px';
+            img.style.top = mapItem["y"] + 'px';
+            img.style.width = mapItem["width"] + 'px';
+            img.style.height = mapItem["height"] + 'px';
+            img.src = mapItem["src"];
+            img.addEventListener("click", function () {
+                _this.loadLocation(mapItem["location"]);
+            });
+            map.appendChild(img);
+        });
         this.isMapReady = true;
     };
     Game.prototype.loadLocation = function (name) {
@@ -119,9 +151,11 @@ var Game = /** @class */ (function () {
         var loc = this.Locations[this.CurrentLocation];
         var bgr = document.getElementById("background");
         DrawingTool.prototype.putImage(bgr, loc.background);
+        var items = document.getElementById("items");
+        items.innerHTML = '';
         loc.items.forEach(function (item) {
             var cnv = DrawingTool.prototype.createCanvas(item["name"]);
-            document.getElementById("items").appendChild(cnv);
+            items.appendChild(cnv);
             DrawingTool.prototype.putImage(cnv, loc.images[item["src"]]);
         });
     };
