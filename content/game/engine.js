@@ -89,6 +89,7 @@ var Loader = /** @class */ (function () {
 var Game = /** @class */ (function () {
     function Game(loader, url) {
         this.isMapReady = false;
+        this.drawingTool = new DrawingTool(this);
         this.Loader = loader;
         this.Locations = new Map();
         this.URL = url;
@@ -121,6 +122,7 @@ var Game = /** @class */ (function () {
         });
         this.mapData = data["map"];
         this.CurrentLocation = data["default"];
+        this.drawingTool.setResolution(data["gameResolution"]);
     };
     Game.prototype.loadMap = function () {
         var _this = this;
@@ -146,17 +148,18 @@ var Game = /** @class */ (function () {
         this.isMapReady = true;
     };
     Game.prototype.loadLocation = function (name) {
+        var _this = this;
         this.loadMap();
         this.CurrentLocation = name;
         var loc = this.Locations[this.CurrentLocation];
         var bgr = document.getElementById("background");
-        DrawingTool.prototype.putImage(bgr, loc.background);
+        this.drawingTool.putImage(bgr, loc.background);
         var items = document.getElementById("items");
         items.innerHTML = '';
         loc.items.forEach(function (item) {
-            var cnv = DrawingTool.prototype.createCanvas(item["name"]);
+            var cnv = _this.drawingTool.createCanvas(item["name"]);
             items.appendChild(cnv);
-            DrawingTool.prototype.putImage(cnv, loc.images[item["src"]]);
+            _this.drawingTool.putImage(cnv, loc.images[item["src"]]);
         });
     };
     return Game;
@@ -179,8 +182,13 @@ var GameLocation = /** @class */ (function () {
     return GameLocation;
 }());
 var DrawingTool = /** @class */ (function () {
-    function DrawingTool() {
+    function DrawingTool(game) {
+        this.game = game;
     }
+    DrawingTool.prototype.setResolution = function (resolution) {
+        this.width = resolution["width"];
+        this.height = resolution["height"];
+    };
     DrawingTool.prototype.putImage = function (canvas, image, posX, posY, width, height) {
         if (posX === void 0) { posX = 0; }
         if (posY === void 0) { posY = 0; }
@@ -191,8 +199,8 @@ var DrawingTool = /** @class */ (function () {
     };
     DrawingTool.prototype.prepare = function (canvas) {
         var computed = window.getComputedStyle(canvas);
-        canvas.width = parseInt(computed.width);
-        canvas.height = parseInt(computed.height);
+        canvas.width = this.width;
+        canvas.height = this.height;
         var ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     };

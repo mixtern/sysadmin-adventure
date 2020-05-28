@@ -99,6 +99,7 @@ class Game {
     CurrentLocation:string;
     mapData: object;
     isMapReady:boolean = false;
+    private drawingTool = new DrawingTool(this);
     
     set showMinimap(b:boolean){
         var map = document.getElementById("minimap");
@@ -130,6 +131,7 @@ class Game {
         });
         this.mapData = data["map"];
         this.CurrentLocation = data["default"];
+        this.drawingTool.setResolution(data["gameResolution"]);
     }
 
     loadMap(){
@@ -160,13 +162,13 @@ class Game {
         this.CurrentLocation = name;
         var loc = this.Locations[this.CurrentLocation] as GameLocation;
         var bgr = document.getElementById("background") as HTMLCanvasElement;
-        DrawingTool.prototype.putImage(bgr,loc.background);
+        this.drawingTool.putImage(bgr,loc.background);
         var items = document.getElementById("items");
         items.innerHTML ='';
         loc.items.forEach(item => {
-           var cnv = DrawingTool.prototype.createCanvas(item["name"]);
+           var cnv = this.drawingTool.createCanvas(item["name"]);
            items.appendChild(cnv);
-           DrawingTool.prototype.putImage(cnv,loc.images[item["src"]]);
+           this.drawingTool.putImage(cnv,loc.images[item["src"]]);
         });
     }
 }
@@ -195,6 +197,15 @@ class GameLocation {
 }
 
 class DrawingTool{
+    private game:Game;
+    private width;
+    private height;
+
+    setResolution(resolution:object){
+        this.width = resolution["width"];
+        this.height = resolution["height"];
+    }
+
     putImage(
         canvas:HTMLCanvasElement, image:CanvasImageSource,
         posX:number = 0, posY:number = 0,
@@ -208,8 +219,8 @@ class DrawingTool{
 
     prepare(canvas:HTMLCanvasElement){
         var computed = window.getComputedStyle(canvas);
-        canvas.width = parseInt(computed.width);
-        canvas.height = parseInt(computed.height);
+        canvas.width = this.width;
+        canvas.height = this.height;
         var ctx = canvas.getContext('2d');
         ctx.clearRect(0,0,canvas.width,canvas.height);
     }
@@ -218,6 +229,10 @@ class DrawingTool{
         var cnv = document.createElement('canvas') as HTMLCanvasElement;
         cnv.id = id;
         return cnv;
+    }
+
+    constructor(game:Game){
+        this.game = game;
     }
 }
 
