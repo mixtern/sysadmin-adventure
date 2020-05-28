@@ -189,7 +189,7 @@ let game;
 window.addEventListener("load",()=> {
     var l = new Loader();
     //l.onEmptyCallbacks.push(()=>console.log('no shit sherlock   '))
-    game = l.getGame(new URL('/content/game/default/game.json',window.location.href).href)
+    game = l.getGame(new URL('default/game.json',window.location.href).href)
 });
 
 function full() {
