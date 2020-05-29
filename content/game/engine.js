@@ -159,7 +159,7 @@ var Game = /** @class */ (function () {
         loc.items.forEach(function (item) {
             var cnv = _this.drawingTool.createCanvas(item["name"]);
             items.appendChild(cnv);
-            _this.drawingTool.putImage(cnv, loc.images[item["src"]]);
+            _this.drawingTool.putImage(cnv, loc.images[item["src"]], item["x"], item["y"], item["width"], item["height"]);
         });
     };
     return Game;

@@ -12,6 +12,11 @@ html,body,div#content,img#bgr,canvas{
     height: 100%;
     overflow:hidden;
 }
+canvas{
+    position: absolute;
+    top: 0;
+    left: 0;
+}
 div#content{
     width: 100vw; 
     height: 56.25vw; /* height:width ratio = 9/16 = .5625  */

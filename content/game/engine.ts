@@ -28,7 +28,7 @@ class Loader {
         });
         
         Array.prototype["remove"] = function(item) {
-            var L = this.length, ax;
+            var L = this.length, ax:number;
             while (L && this.length) {
                 item = this[--L];
                 while ((ax = this.indexOf(item)) !== -1) {
@@ -168,7 +168,11 @@ class Game {
         loc.items.forEach(item => {
            var cnv = this.drawingTool.createCanvas(item["name"]);
            items.appendChild(cnv);
-           this.drawingTool.putImage(cnv,loc.images[item["src"]]);
+           this.drawingTool.putImage(
+               cnv, loc.images[item["src"]],
+               item["x"], item["y"],
+               item["width"], item["height"]
+           );
         });
     }
 }
