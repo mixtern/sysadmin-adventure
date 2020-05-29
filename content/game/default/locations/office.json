@@ -1,6 +1,5 @@
 {
-    "background":"img/office/office_background.png",
-    "items":[
-    ],
-    "script":"office.js"
+    "background": "img/office/office_background.png",
+    "items": [],
+    "script": "office.js"
 }

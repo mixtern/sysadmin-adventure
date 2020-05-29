@@ -1,17 +1,17 @@
 {
-    "background":"img/boss_room/boss_room_background.png",
-    "items":[
+    "background": "img/boss_room/boss_room_background.png",
+    "items": [
         {
-            "name":"boss",
-            "src":"img/boss_room/boss_room_boss.png"
+            "name": "boss",
+            "src": "img/boss_room/boss_room_boss.png"
         },
         {
-            "name":"chair",
-            "src":"img/boss_room/boss_room_chair.png"
+            "name": "chair",
+            "src": "img/boss_room/boss_room_chair.png"
         },
         {
-            "name":"pc",
-            "src":"img/boss_room/boss_room_pc.png"
+            "name": "pc",
+            "src": "img/boss_room/boss_room_pc.png"
         }
     ]
 }

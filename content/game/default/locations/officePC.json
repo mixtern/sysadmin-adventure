@@ -1,6 +1,12 @@
 {
-    "background":"img/default.jpg",
-    "items":[
-        {"src":"img/pc_back/pc.png"},
-        {"src":"img/pc_back/ppcc_rj45.png", "id":"rj45"}]
+    "background": "img/default.jpg",
+    "items": [
+        {
+            "src": "img/pc_back/pc.png"
+        },
+        {
+            "src": "img/pc_back/ppcc_rj45.png",
+            "id": "rj45"
+        }
+    ]
 }

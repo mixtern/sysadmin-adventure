@@ -1,0 +1,13 @@
+{
+    "background": "img/meme-loc.jpg",
+    "items": [
+        {
+            "name": "meme",
+            "src": "img/items/lol.png",
+            "x": 450,
+            "y": 0,
+            "width": 2200,
+            "height": 1200
+        }
+    ]
+}

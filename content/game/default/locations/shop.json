@@ -1,4 +1,8 @@
 {
-    "background":"img/shop/shop_background.png",
-    "items":[{"src":"img/shop/shop_cashman.png"}]
+    "background": "img/shop/shop_background.png",
+    "items": [
+        {
+            "src": "img/shop/shop_cashman.png"
+        }
+    ]
 }

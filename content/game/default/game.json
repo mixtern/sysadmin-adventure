@@ -1,67 +1,125 @@
 {
-    "gameResolution":{
-        "width":3200,
-        "height":1800
+    "gameResolution": {
+        "width": 3200,
+        "height": 1800
     },
-    "locations":["office","officePC","server","hq","shop"],
-    "default":"hq",
-    "script":[
-        {"type":"showgui","args":false, "continue":true},
-        {"type":"location","args":"hq","continue":true},
-        {"type":"textbox","args":"Добро пожаловать в нашу компанию!"},
-        {"type":"textbox","args":"Наша компания сейчас активно растёт, и мы решили переехать в этот новый офис"},
-        {"type":"textbox","args":"Твоя задача - подготовить офис к работе, вперёд!"},
-        {"type":"textbox","args":"","continue":true},
-        {"type":"gui","args":true,"continue":true},
-        {"type":"quest","args":{
-            "name":"Подготовить компьютеры в офисе","tasks":[
-                {"name":"подключить компьютеры к сети", "current":0, "max":2},
-                {"name":"доложить боссу","current":0,"max":1}]
+    "locations": [
+        "office",
+        "officePC",
+        "server",
+        "hq",
+        "shop",
+        "meme"
+    ],
+    "default": "hq",
+    "script": [
+        {
+            "type": "showgui",
+            "args": {
+                "bool": false
+            },
+            "continue": true
+        },
+        {
+            "type": "location",
+            "args": {
+                "str": "hq"
+            },
+            "continue": true
+        },
+        {
+            "type": "textbox",
+            "args": {
+                "str": "Добро пожаловать в нашу компанию!"
+            }
+        },
+        {
+            "type": "textbox",
+            "args": {
+                "str": "Наша компания сейчас активно растёт, и мы решили переехать в этот новый офис"
+            }
+        },
+        {
+            "type": "textbox",
+            "args": {
+                "str": "Твоя задача - подготовить офис к работе, вперёд!"
+            }
+        },
+        {
+            "type": "textbox",
+            "args":  {
+                "str": ""
+            },
+            "continue": true
+        },
+        {
+            "type": "gui",
+            "args": {
+                "bool":true
+            },
+            "continue": true
+        },
+        {
+            "type": "quest",
+            "args": {
+                "str": "Подготовить компьютеры в офисе",
+                "tasks": [
+                    {
+                        "name": "подключить компьютеры к сети",
+                        "current": 0,
+                        "max": 2
+                    },
+                    {
+                        "name": "доложить боссу",
+                        "current": 0,
+                        "max": 1
+                    }
+                ]
             }
         }
     ],
-    "map":{
-        "background":"img/minimap/minimap_background.png",
-        "size":{
-            "width":150,
-            "height":150
+    "map": {
+        "background": "img/minimap/minimap_background.png",
+        "size": {
+            "width": 150,
+            "height": 150
         },
-        "mapItems":[
+        "mapItems": [
             {
-                "location":"hq",
-                "title":"Босс",
-                "x":47,
-                "y":13,
-                "width":30,
-                "height":30,
-                "src":"img/minimap/minimap_boss.png"
+                "location": "hq",
+                "title": "Босс",
+                "x": 47,
+                "y": 13,
+                "width": 30,
+                "height": 30,
+                "src": "img/minimap/minimap_boss.png"
             },
             {
-                "location":"office",
-                "title":"Офис",
-                "x":47,
-                "y":53,
-                "width":30,
-                "height":30,
-                "src":"img/minimap/minimap_office.png"
+                "location": "office",
+                "title": "Офис",
+                "x": 47,
+                "y": 53,
+                "width": 30,
+                "height": 30,
+                "src": "img/minimap/minimap_office.png"
             },
             {
-                "location":"server",
-                "title":"Серверная",
-                "x":47,
-                "y":93,
-                "width":30,
-                "height":30,
-                "src":"img/minimap/minimap_server_room.png"
+                "location": "server",
+                "title": "Серверная",
+                "x": 47,
+                "y": 93,
+                "width": 30,
+                "height": 30,
+                "src": "img/minimap/minimap_server_room.png"
             },
             {
-                "location":"shop",
-                "title":"Магазин",
-                "x":97,
-                "y":93,
-                "width":30,
-                "height":30,
-                "src":"img/minimap/minimap_shop.png"
+                "location": "shop",
+                "title": "Магазин",
+                "x": 97,
+                "y": 93,
+                "width": 30,
+                "height": 30,
+                "src": "img/minimap/minimap_shop.png"
             }
         ]
     }

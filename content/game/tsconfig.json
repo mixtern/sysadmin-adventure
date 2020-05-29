@@ -1,7 +1,14 @@
 {
     "compilerOptions": {
         "target": "es5",
-        "lib": ["es5", "es6", "dom"]
+        "lib": [
+            "es5",
+            "es6",
+            "dom"
+        ]
     },
-    "include": ["*.ts","*.tsx"]
+    "include": [
+        "*.ts",
+        "*.tsx"
+    ]
 }

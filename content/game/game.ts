@@ -81,13 +81,6 @@
 
 // game logic
 
-// function meme_test(){
-//     scriptQueue.push({type:"location",args:"meme",continue:true})
-//     scriptQueue.push({type:"textbox",args:"chill dude",continue:false})
-//     scriptQueue.push({type:"textbox",args:"",continue:false})
-//     scriptQueue.push({type:"textbox",args:"wow, such meme",continue:false})
-// }
-
 // function skipClick(e){
 //     switch(e.type){
 //         case "click":
@@ -184,18 +177,17 @@
 //     });
 // }
 
-let game;
+let game: Game;
 
-window.addEventListener("load",()=> {
+window.addEventListener("load", () => {
     var l = new Loader();
-    //l.onEmptyCallbacks.push(()=>console.log('no shit sherlock   '))
-    game = l.getGame(new URL('default/game.json',window.location.href).href)
+    game = l.getGame(new URL('default/game.json', window.location.href).href)
 });
 
 function full() {
     var button = document.getElementById("fs");
     var cont = document.getElementById("content");
-    if(cont.classList.contains("fullscreen")) {
+    if (cont.classList.contains("fullscreen")) {
         button.classList.remove("pressed");
         cont.classList.remove("fullscreen");
         document.exitFullscreen();
@@ -205,6 +197,14 @@ function full() {
         cont.classList.add("fullscreen")
         cont.requestFullscreen();
     }
+}
+
+function meme_test(){
+    var scriptQueue = game.Script.scriptQueue;
+    scriptQueue.push({type:"location",args:new ScriptArguments("name"),continue:true})
+    scriptQueue.push({type:"textbox",args:new ScriptArguments("chill dude"),continue:false})
+    scriptQueue.push({type:"textbox",args:new ScriptArguments(""),continue:false})
+    scriptQueue.push({type:"textbox",args:new ScriptArguments("wow, such meme"),continue:false})
 }
 
 // window.addEventListener("keydown",skipClick)

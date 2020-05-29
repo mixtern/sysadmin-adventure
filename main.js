@@ -1,17 +1,17 @@
-function Redirect(src){
-    if(src == undefined || src == null)
+function Redirect(src) {
+    if (src == undefined || src == null)
         return
-    document.getElementById("mainframe").src=src;
+    document.getElementById("mainframe").src = src;
 }
 
-function full(){
+function full() {
     var cont = document.getElementById("frame-content");
     var button = document.getElementById("fs");
-    if(cont.classList.contains("fullscreen")){
+    if (cont.classList.contains("fullscreen")) {
         button.classList.remove("pressed");
         cont.classList.remove("fullscreen");
     }
-    else{
+    else {
         button.classList.add("pressed")
         cont.classList.add("fullscreen")
     }

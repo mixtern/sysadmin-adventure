@@ -108,9 +108,33 @@ var Game = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Game.prototype, "showQuest", {
+        get: function () {
+            return document.getElementById("quest-header").classList.contains("hide");
+        },
+        set: function (b) {
+            var quest = document.getElementById("quest-header");
+            if (b && this.Quest.queue.length > 0)
+                quest.classList.remove("hide");
+            else
+                quest.classList.add("hide");
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Game.prototype, "showGUI", {
+        get: function () {
+            return (this.showQuest || this.showMinimap);
+        },
+        set: function (b) {
+            this.showMinimap = b;
+            this.showQuest = b;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Game.prototype.init = function (data) {
         var _this = this;
-        this.Script = data["Script"];
         this.Loader.onEmptyCallbacks.push(function () {
             var t = _this;
             t.loadLocation(t.CurrentLocation);
@@ -123,6 +147,7 @@ var Game = /** @class */ (function () {
         this.mapData = data["map"];
         this.CurrentLocation = data["default"];
         this.drawingTool.setResolution(data["gameResolution"]);
+        this.Script = new ScriptEngine(this, data["script"]);
     };
     Game.prototype.loadMap = function () {
         var _this = this;
@@ -211,89 +236,143 @@ var DrawingTool = /** @class */ (function () {
     };
     return DrawingTool;
 }());
-// class Quest{
-// }
-// class QuestEngine{
-//     list:Array<Quest> = [];
-//     add(name,tasks){
-//         var q = {name:name,tasks:tasks};
-//         this.list.push(q);
-//         this.hide(false)
-//         this.draw()
-//     };
-//     isComplete(questName,taskName){
-//         var quest = this.list.find(a=>a.name == questName);
-//         if(!quest)
-//             return;
-//         var task = quest.tasks.find(a => a.name == taskName);
-//         return (task.current >= task.max)
-//     };
-//     remove(name){
-//         this.list = this.list.filter(q => q.name != name);
-//         if(this.list.length == 0){
-//             this.hide(true);
-//             return;
-//         }
-//         this.draw();
-//     };
-//     draw(){
-//         var title = document.getElementById("quest-header");
-//         title.innerHTML = this.list[0].name;
-//         var taskList = document.getElementById("task-list");
-//         taskList.innerHTML = "";
-//         this.list[0].tasks.forEach((task=>{
-//             var t = document.createElement("div");
-//             t.classList.add("quest-item");
-//             t.innerText = task.name + " - " + task.current + "/" + task.max;
-//             if(task.current >= task.max)
-//                 t.classList.add("finished");
-//             taskList.appendChild(t)
-//         }))
-//     };
-//     update(questName,taskName,count){
-//         var q = this.list.findIndex(a=>a.name == questName);
-//         var t = this.list[q].tasks.findIndex(a => a.name == taskName)
-//         this.list[q].tasks[t].current += count;
-//         this.draw();
-//     };
-//     hide(hidden:boolean){
-//         var q = document.getElementById("quest");
-//         if(hidden || this.list.length == 0){
-//             q.classList.add("hide");
-//             return;
-//         }
-//         q.classList.remove("hide");
-//         this.draw();
-//     }
-// }
-// class ScriptEngine{
-// }
-// var scriptQueue = [];
-// var scriptIsActive:boolean = false;
-// function nextScript(){
-//     var action = scriptQueue.shift();
-//     if(action == undefined){
-//         scriptIsActive = false;
-//         return;
-//     }
-//     scriptIsActive = true;
-//     switch(action.type){
-//         case "location":
-//             changeLocation(action.args)
-//             break;
-//         case "textbox":
-//             textbox(action.args);
-//             break;
-//         case "minimap":
-//             minimap(action.args)
-//             break;
-//         case "gui":
-//             //gui(action.args);
-//             break;
-//         case "quest":
-//             //quest.add(action.args.name,action.args.tasks)
-//             break;
-//     }
-//     if(action.continue)
-//         nextScript();
-// }
+var Quest = /** @class */ (function () {
+    function Quest(name, tasks) {
+        this.name = name;
+        this.tasks = tasks;
+    }
+    return Quest;
+}());
+var QuestTask = /** @class */ (function () {
+    function QuestTask(name, max) {
+        this.name = name;
+        this.max = max;
+    }
+    return QuestTask;
+}());
+var QuestEngine = /** @class */ (function () {
+    function QuestEngine() {
+        this.queue = [];
+    }
+    QuestEngine.prototype.add = function (name, tasks) {
+        this.queue.push(new Quest(name, tasks));
+        this.hide(false);
+        this.draw();
+    };
+    ;
+    QuestEngine.prototype.isComplete = function (questName, taskName) {
+        var quest = this.queue.find(function (a) { return a.name == questName; });
+        if (!quest)
+            return;
+        var task = quest.tasks.find(function (a) { return a.name == taskName; });
+        return (task.current >= task.max);
+    };
+    ;
+    QuestEngine.prototype.remove = function (name) {
+        this.queue = this.queue.filter(function (q) { return q.name != name; });
+        if (this.queue.length == 0) {
+            this.hide(true);
+            return;
+        }
+        this.draw();
+    };
+    ;
+    QuestEngine.prototype.draw = function () {
+        var title = document.getElementById("quest-header");
+        title.innerHTML = this.queue[0].name;
+        var taskList = document.getElementById("task-list");
+        taskList.innerHTML = "";
+        this.queue[0].tasks.forEach((function (task) {
+            var t = document.createElement("div");
+            t.classList.add("quest-item");
+            t.innerText = task.name + " - " + task.current + "/" + task.max;
+            if (task.current >= task.max)
+                t.classList.add("finished");
+            taskList.appendChild(t);
+        }));
+    };
+    ;
+    QuestEngine.prototype.update = function (questName, taskName, count) {
+        var q = this.queue.findIndex(function (a) { return a.name == questName; });
+        var t = this.queue[q].tasks.findIndex(function (a) { return a.name == taskName; });
+        this.queue[q].tasks[t].current += count;
+        this.draw();
+    };
+    ;
+    QuestEngine.prototype.hide = function (hidden) {
+        var q = document.getElementById("quest");
+        if (hidden || this.queue.length == 0) {
+            q.classList.add("hide");
+            return;
+        }
+        q.classList.remove("hide");
+        this.draw();
+    };
+    return QuestEngine;
+}());
+var ScriptItem = /** @class */ (function () {
+    function ScriptItem(type, args, cont) {
+        if (cont === void 0) { cont = false; }
+        this.type = type;
+        this.args = args;
+        this.continue = cont;
+    }
+    return ScriptItem;
+}());
+var ScriptArguments = /** @class */ (function () {
+    function ScriptArguments(str, bool, list) {
+        if (str === void 0) { str = ""; }
+        if (bool === void 0) { bool = false; }
+        if (list === void 0) { list = []; }
+        this.bool = bool;
+        this.str = str;
+        this.list = list;
+    }
+    return ScriptArguments;
+}());
+var ScriptEngine = /** @class */ (function () {
+    function ScriptEngine(game, data) {
+        this.scriptQueue = [];
+        this.scriptIsActive = false;
+        this.game = game;
+        this.scriptQueue = data;
+        this.nextScript();
+    }
+    ScriptEngine.prototype.nextScript = function () {
+        var action = this.scriptQueue.shift();
+        if (action == undefined) {
+            this.scriptIsActive = false;
+            return;
+        }
+        this.scriptIsActive = true;
+        switch (action.type) {
+            case "location":
+                this.game.loadLocation(action.args.str);
+                break;
+            case "textbox":
+                this.textbox(action.args.str);
+                break;
+            case "minimap":
+                this.game.showMinimap = action.args.bool;
+                break;
+            case "gui":
+                this.game.showGUI = action.args.bool;
+                break;
+            case "quest":
+                this.game.Quest.add(action.args.str, action.args.list);
+                break;
+        }
+        if (action.continue)
+            this.nextScript();
+    };
+    ScriptEngine.prototype.textbox = function (str) {
+        var box = document.getElementById("textbox");
+        if (str == undefined || str.length == 0) {
+            box.classList.add("hide");
+            return;
+        }
+        box.classList.remove("hide");
+        box.innerHTML = str;
+    };
+    return ScriptEngine;
+}());

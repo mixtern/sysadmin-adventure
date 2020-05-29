@@ -1,13 +1,13 @@
 {
-    "background":"img/server_room/server_room_background.png",
-    "items":[
+    "background": "img/server_room/server_room_background.png",
+    "items": [
         {
-            "name":"server",
-            "src":"img/server_room/server_room_server.png"
+            "name": "server",
+            "src": "img/server_room/server_room_server.png"
         },
         {
-            "name":"table",
-            "src":"img/server_room/server_room_table.png"
+            "name": "table",
+            "src": "img/server_room/server_room_table.png"
         }
     ]
 }
