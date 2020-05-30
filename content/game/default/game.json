@@ -14,16 +14,9 @@
     "default": "hq",
     "script": [
         {
-            "type": "showgui",
+            "type": "gui",
             "args": {
                 "bool": false
-            },
-            "continue": true
-        },
-        {
-            "type": "location",
-            "args": {
-                "str": "hq"
             },
             "continue": true
         },

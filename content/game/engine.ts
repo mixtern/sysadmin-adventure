@@ -144,6 +144,7 @@ class Game {
             var t = this;
             t.loadLocation(t.CurrentLocation);
             console.log('STARTING DEFAULT LOCATION')
+            this.Script.nextScript();
         });
         data["locations"].forEach((name: string) => {
             var locationUrl = new URL(`./locations/${name}.json`, this.URL).href;
@@ -152,7 +153,8 @@ class Game {
         this.mapData = data["map"];
         this.CurrentLocation = data["default"];
         this.drawingTool.setResolution(data["gameResolution"]);
-        this.Script = new ScriptEngine(this,data["script"]);
+        this.Quest = new QuestEngine(this);
+        this.Script = new ScriptEngine(this, data["script"]);
     }
 
     loadMap() {
@@ -284,8 +286,10 @@ class QuestTask {
 
 class QuestEngine {
     queue: Array<Quest> = [];
+    private game: Game;
 
     add(name: string, tasks: Array<QuestTask>) {
+        console.log(tasks);
         this.queue.push(new Quest(name, tasks));
         this.hide(false)
         this.draw()
@@ -341,8 +345,8 @@ class QuestEngine {
         this.draw();
     }
 
-    constructor() {
-
+    constructor(game: Game) {
+        this.game = game;
     }
 }
 
@@ -407,10 +411,23 @@ class ScriptEngine {
             this.nextScript();
     }
 
-    constructor(game: Game,data:Array<ScriptItem>) {
+    constructor(game: Game, data: Array<ScriptItem>) {
         this.game = game;
         this.scriptQueue = data;
-        this.nextScript();
+        var script = this;
+        var skipClick = (e:any) =>{
+            switch (e.type) {
+                case "click":
+                    script.nextScript();
+                    break;
+                case "keydown":
+                    if (e.key == " " || e.key == "Enter")
+                        script.nextScript();
+                    break;
+            }
+        }
+        window.addEventListener("keydown", skipClick)
+        window.addEventListener("click", skipClick)
     }
 
     textbox(str: string) {

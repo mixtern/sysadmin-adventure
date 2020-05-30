@@ -139,6 +139,7 @@ var Game = /** @class */ (function () {
             var t = _this;
             t.loadLocation(t.CurrentLocation);
             console.log('STARTING DEFAULT LOCATION');
+            _this.Script.nextScript();
         });
         data["locations"].forEach(function (name) {
             var locationUrl = new URL("./locations/" + name + ".json", _this.URL).href;
@@ -147,6 +148,7 @@ var Game = /** @class */ (function () {
         this.mapData = data["map"];
         this.CurrentLocation = data["default"];
         this.drawingTool.setResolution(data["gameResolution"]);
+        this.Quest = new QuestEngine(this);
         this.Script = new ScriptEngine(this, data["script"]);
     };
     Game.prototype.loadMap = function () {
@@ -251,10 +253,13 @@ var QuestTask = /** @class */ (function () {
     return QuestTask;
 }());
 var QuestEngine = /** @class */ (function () {
-    function QuestEngine() {
+    function QuestEngine(game) {
         this.queue = [];
+        this.game = game;
     }
     QuestEngine.prototype.add = function (name, tasks) {
+        console.log(tasks);
+        l;
         this.queue.push(new Quest(name, tasks));
         this.hide(false);
         this.draw();
@@ -336,7 +341,20 @@ var ScriptEngine = /** @class */ (function () {
         this.scriptIsActive = false;
         this.game = game;
         this.scriptQueue = data;
-        this.nextScript();
+        var script = this;
+        var skipClick = function (e) {
+            switch (e.type) {
+                case "click":
+                    script.nextScript();
+                    break;
+                case "keydown":
+                    if (e.key == " " || e.key == "Enter")
+                        script.nextScript();
+                    break;
+            }
+        };
+        window.addEventListener("keydown", skipClick);
+        window.addEventListener("click", skipClick);
     }
     ScriptEngine.prototype.nextScript = function () {
         var action = this.scriptQueue.shift();

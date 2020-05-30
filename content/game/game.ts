@@ -78,7 +78,6 @@
 //     }
 // }
 
-
 // game logic
 
 // function skipClick(e){
@@ -206,6 +205,3 @@ function meme_test(){
     scriptQueue.push({type:"textbox",args:new ScriptArguments(""),continue:false})
     scriptQueue.push({type:"textbox",args:new ScriptArguments("wow, such meme"),continue:false})
 }
-
-// window.addEventListener("keydown",skipClick)
-// window.addEventListener("click",skipClick)
