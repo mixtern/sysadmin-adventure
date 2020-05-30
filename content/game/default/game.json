@@ -115,5 +115,6 @@
                 "src": "img/minimap/minimap_shop.png"
             }
         ]
-    }
+    },
+    "externalHandler":"sysadmin.js"
 }

@@ -1,3 +1,6 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var engine_1 = require("./engine");
 // var locations = {
 //     office:{
 //         background:"img/office/office_background.png",
@@ -90,7 +93,7 @@
 // }
 var game;
 window.addEventListener("load", function () {
-    var l = new Loader();
+    var l = new engine_1.GameEngine.Loader();
     game = l.getGame(new URL('default/game.json', window.location.href).href);
 });
 function full() {
@@ -109,9 +112,9 @@ function full() {
 }
 function meme_test() {
     var scriptQueue = game.Script.scriptQueue;
-    scriptQueue.push({ type: "location", args: new ScriptArguments("meme"), continue: true });
-    scriptQueue.push({ type: "textbox", args: new ScriptArguments("chill dude"), continue: false });
-    scriptQueue.push({ type: "textbox", args: new ScriptArguments(""), continue: false });
-    scriptQueue.push({ type: "textbox", args: new ScriptArguments("wow, such meme"), continue: false });
+    scriptQueue.push({ type: "location", args: new engine_1.GameEngine.ScriptArguments("meme"), continue: true });
+    scriptQueue.push({ type: "textbox", args: new engine_1.GameEngine.ScriptArguments("chill dude"), continue: false });
+    scriptQueue.push({ type: "textbox", args: new engine_1.GameEngine.ScriptArguments(""), continue: false });
+    scriptQueue.push({ type: "textbox", args: new engine_1.GameEngine.ScriptArguments("wow, such meme"), continue: false });
     game.Script.nextScript();
 }
