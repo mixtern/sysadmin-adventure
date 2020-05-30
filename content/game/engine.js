@@ -113,11 +113,7 @@ var Game = /** @class */ (function () {
             return document.getElementById("quest-header").classList.contains("hide");
         },
         set: function (b) {
-            var quest = document.getElementById("quest-header");
-            if (b && this.Quest.queue.length > 0)
-                quest.classList.remove("hide");
-            else
-                quest.classList.add("hide");
+            this.Quest.hide(b);
         },
         enumerable: false,
         configurable: true
@@ -259,7 +255,6 @@ var QuestEngine = /** @class */ (function () {
     }
     QuestEngine.prototype.add = function (name, tasks) {
         console.log(tasks);
-        l;
         this.queue.push(new Quest(name, tasks));
         this.hide(false);
         this.draw();
@@ -377,6 +372,7 @@ var ScriptEngine = /** @class */ (function () {
                 this.game.showGUI = action.args.bool;
                 break;
             case "quest":
+                console.log(action);
                 this.game.Quest.add(action.args.str, action.args.list);
                 break;
         }

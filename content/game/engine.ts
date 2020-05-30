@@ -113,10 +113,7 @@ class Game {
     }
 
     set showQuest(b: boolean) {
-        var quest = document.getElementById("quest-header");
-        if (b && this.Quest.queue.length > 0)
-            quest.classList.remove("hide");
-        else quest.classList.add("hide");
+        this.Quest.hide(b);
     }
 
     get showQuest() {
@@ -294,7 +291,7 @@ class QuestEngine {
         this.hide(false)
         this.draw()
     };
-
+ 
     isComplete(questName: string, taskName: string) {
         var quest = this.queue.find(a => a.name == questName);
         if (!quest)
@@ -403,6 +400,7 @@ class ScriptEngine {
                 this.game.showGUI = action.args.bool;
                 break;
             case "quest":
+                console.log(action);
                 this.game.Quest.add(action.args.str, action.args.list)
                 break;
         }
