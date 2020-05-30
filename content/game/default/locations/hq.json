@@ -1,17 +1,17 @@
 {
-    "background": "img/boss_room/boss_room_background.png",
+    "background": "img/boss_room/background.svg",
     "items": [
         {
             "name": "boss",
-            "src": "img/boss_room/boss_room_boss.png"
+            "src": "img/boss_room/boss.svg"
         },
         {
             "name": "chair",
-            "src": "img/boss_room/boss_room_chair.png"
+            "src": "img/boss_room/chair.svg"
         },
         {
             "name": "pc",
-            "src": "img/boss_room/boss_room_pc.png"
+            "src": "img/boss_room/pc.svg"
         }
     ]
 }
