@@ -1,5 +1,30 @@
 {
-    "background": "img/office/office_background.png",
-    "items": [],
+    "background": "img/office/background.svg",
+    "items": [
+        {
+            "name": "desk_2L",
+            "src": "img/office/desk_2L.svg"
+        },
+        {
+            "name": "desk_2R",
+            "src": "img/office/desk_2R.svg"
+        },
+        {
+            "name": "desk_1L",
+            "src": "img/office/desk_1L.svg"
+        },
+        {
+            "name": "desk_1R",
+            "src": "img/office/desk_1R.svg"
+        },
+        {
+            "name": "desk_0L",
+            "src": "img/office/desk_0L.svg"
+        },
+        {
+            "name": "desk_0R",
+            "src": "img/office/desk_0R.svg"
+        }
+    ],
     "script": "office.js"
 }
