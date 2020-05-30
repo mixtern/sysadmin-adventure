@@ -72,7 +72,7 @@
         }
     ],
     "map": {
-        "background": "img/minimap/minimap_background.png",
+        "background": "img/minimap/background.svg",
         "size": {
             "width": 150,
             "height": 150
@@ -85,7 +85,7 @@
                 "y": 13,
                 "width": 30,
                 "height": 30,
-                "src": "img/minimap/minimap_boss.png"
+                "src": "img/minimap/boss.svg"
             },
             {
                 "location": "office",
@@ -94,7 +94,7 @@
                 "y": 53,
                 "width": 30,
                 "height": 30,
-                "src": "img/minimap/minimap_office.png"
+                "src": "img/minimap/office.svg"
             },
             {
                 "location": "server",
@@ -103,16 +103,16 @@
                 "y": 93,
                 "width": 30,
                 "height": 30,
-                "src": "img/minimap/minimap_server_room.png"
+                "src": "img/minimap/server.svg"
             },
             {
                 "location": "shop",
                 "title": "Магазин",
                 "x": 97,
-                "y": 93,
+                "y": 83,
                 "width": 30,
                 "height": 30,
-                "src": "img/minimap/minimap_shop.png"
+                "src": "img/minimap/shop.svg"
             }
         ]
     }
