@@ -291,7 +291,7 @@ class QuestEngine {
         this.hide(false)
         this.draw()
     };
- 
+
     isComplete(questName: string, taskName: string) {
         var quest = this.queue.find(a => a.name == questName);
         if (!quest)
@@ -413,7 +413,7 @@ class ScriptEngine {
         this.game = game;
         this.scriptQueue = data;
         var script = this;
-        var skipClick = (e:any) =>{
+        var skipClick = (e: any) => {
             switch (e.type) {
                 case "click":
                     script.nextScript();

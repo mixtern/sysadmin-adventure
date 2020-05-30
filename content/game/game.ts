@@ -78,40 +78,6 @@
 //     }
 // }
 
-// game logic
-
-// function skipClick(e){
-//     switch(e.type){
-//         case "click":
-//             nextScript();
-//             break;
-//         case "keydown":
-//             if(e.key == " " || e.key == "Enter")
-//                 nextScript();
-//             break;
-//     }
-// }
-
-// function textbox(text){
-//     var box = document.getElementById("textbox");
-//     if(text == undefined || text.length == 0){
-//         box.classList.add("hide");
-//         return;
-//     }
-//     box.classList.remove("hide")
-//     box.innerHTML = text;
-// }
-
-// function minimap(enabled){
-//     var map = document.getElementById("minimap");
-//     minimapEnabled = !!enabled
-//     if(!minimapEnabled){
-//         map.classList.add("hide");
-//         return;
-//     }
-//     map.classList.remove("hide")
-// }
-
 // function back(location){
 //     var b = document.getElementById("back")
 //     if(location == undefined || location.length == 0){
@@ -122,58 +88,6 @@
 //     }
 //     previousLocation = location;
 //     b.classList.remove("hide");
-// }
-
-// function move(name){
-//     if(!minimapEnabled || !(name in locations))
-//         return;
-//     changeLocation(name)
-// }
-
-// function changeLocation(name:string){
-//     if(!(name in locations))
-//         return;
-//     currentLocation = name;
-//     document.getElementById("bgr").src = locations[name].background;
-//     loadItems();
-//     if(locations[name].onload)
-//         locations[name].onload();
-// }
-
-// function loadItems(){
-//     var items = document.getElementById("items");
-//     items.innerHTML = "";
-//     locations[currentLocation].items.forEach(item => {
-//         var image = new Image();
-//         var a = document.createElement("canvas")
-//         a.classList.add("item");
-//         if(item.id)
-//             a.id=item.id;
-//         if(item.active)
-//             a.classList.add("active");
-//         a.height = items.clientHeight;
-//         a.width = items.clientWidth;
-//         items.appendChild(a)
-//         a.addEventListener("click",(event)=>{
-//             var x = event.pageX - a.offsetLeft,
-//                 y = event.pageY - a.offsetTop,
-//                 alpha;
-//             var items = document.getElementById("items").children;
-//             for(var i in items){
-//                 if(!items[i].getContext)
-//                     continue;
-//                 alpha = items[i].getContext("2d").getImageData(x, y, 1, 1).data[3]; 
-//                 if(alpha>0 && items[i].classList.contains("active")){
-//                     locations[currentLocation].items[i].action()
-//                     break;
-//                 }
-//             }
-//         });
-//         image.onload = ()=>{
-//             a.getContext("2d").drawImage(image,0,0,a.clientWidth,a.clientHeight);
-//         }
-//         image.src = item.src;
-//     });
 // }
 
 let game: Game;
@@ -200,8 +114,9 @@ function full() {
 
 function meme_test(){
     var scriptQueue = game.Script.scriptQueue;
-    scriptQueue.push({type:"location",args:new ScriptArguments("name"),continue:true})
+    scriptQueue.push({type:"location",args:new ScriptArguments("meme"),continue:true})
     scriptQueue.push({type:"textbox",args:new ScriptArguments("chill dude"),continue:false})
     scriptQueue.push({type:"textbox",args:new ScriptArguments(""),continue:false})
     scriptQueue.push({type:"textbox",args:new ScriptArguments("wow, such meme"),continue:false})
+    game.Script.nextScript();
 }
