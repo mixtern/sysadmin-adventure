@@ -1,8 +1,8 @@
 {
-    "background": "img/shop/shop_background.png",
+    "background": "img/shop/background.svg",
     "items": [
         {
-            "src": "img/shop/shop_cashman.png"
+            "src": "img/shop/cashman.svg"
         }
     ]
 }
