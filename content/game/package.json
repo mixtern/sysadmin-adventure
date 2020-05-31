@@ -1,0 +1,15 @@
+{
+  "name": "sysadmin-adventure",
+  "version": "0.1.0",
+  "description": "2D point&click sysadmin simulator",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "INTERN PROJECT",
+  "license": "copyright",
+  "dependencies": {
+    "electron": "^9.0.0",
+    "electron-packager": "^14.2.1"
+  }
+}
