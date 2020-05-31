@@ -1,0 +1,13 @@
+{
+    "background": "img/minimap/background.svg",
+    "items": [
+        {
+            "name": "logo",
+            "src": "img/title_screen/logo.svg"
+        },
+        {
+            "name": "play",
+            "src": "img/title_screen/play_button.svg"
+        }
+    ]
+}
