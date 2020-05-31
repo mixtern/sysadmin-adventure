@@ -4,7 +4,9 @@
   "description": "2D point&click sysadmin simulator",
   "main": "index.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "package:win": "electron-packager . --overwrite --platform=win32 --arch=x64 --out=out",
+    "package:linux": "electron-packager . --overwrite --platform=linux --arch=x64 --out=out"
   },
   "author": "INTERN PROJECT",
   "license": "copyright",
