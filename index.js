@@ -17,7 +17,7 @@ function createWindow() {
 
     win.loadFile('index.html');
     win.removeMenu();
-    // win.setAspectRatio(4 / 5);   
+    
     winHandler = new aspect(win);
     winHandler.setRatio(16, 9, 50);
 }
