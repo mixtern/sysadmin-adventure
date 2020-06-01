@@ -5,30 +5,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sysadmin Adventure</title>
     <link rel="stylesheet" href="style.css">
-    <script src="main.js"></script>
-    <title>SYSADMIN ADVENTURES 2</title>
+    <script src="engine.js"></script>
+    <script src="game.js"></script>
 </head>
 
 <body>
-    <div id="main">
-        <div id="menu">
-            <ul class="menu-buttons">
-                <li onclick="Redirect('content/about/about.html')">О проекте</li>
-                <li onclick="Redirect('content/game/index.html')">Геймплей</li>
-                <li onclick="Redirect('content/market/market.html')">Рынок</li>
-                <li onclick="Redirect('content/plans/plans.html')">Планы</li>
-                <li onclick="Redirect('authors.html')">Авторы</li>
-            </ul>
+    <div id="content">
+        <canvas id="background"></canvas>
+        <div id="items"></div>
+        <div id="quest" class="hide">
+            <p id="quest-header"></p>
+            <div id="task-list">
+            </div>
         </div>
-        <div id="frame-content">
-            <iframe id="mainframe" src="content/about/about.html" frameborder="0"></iframe>
+        <div id="minimap">
         </div>
+        <div id="back" class="hide" onclick=back()></div>
+        <div id="textbox" class="hide"></div>
+        <button id="fs" class="fullscreen" onclick="full();"></button>
     </div>
-    <div id="footer">
-        mixtern © 2019
-    </div>
-    <button id="fs" class="fullscreen" onclick="full();"></button>
 </body>
 
 </html>
