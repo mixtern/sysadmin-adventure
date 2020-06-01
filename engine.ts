@@ -89,7 +89,7 @@ class Loader {
         return img;
     }
 
-    loadScript(url:string){
+    loadScript(url: string) {
         var script = document.createElement("script");
         this.queue.push(url);
         script.addEventListener("load", () => setTimeout(() => {

@@ -12,6 +12,7 @@
     "license": "copyright",
     "dependencies": {
         "electron": "^9.0.0",
+        "electron-aspectratio": "^1.0.1",
         "electron-packager": "^14.2.1"
     }
 }

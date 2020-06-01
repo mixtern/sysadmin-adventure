@@ -112,11 +112,11 @@ function full() {
     }
 }
 
-function meme_test(){
+function meme_test() {
     var scriptQueue = game.Script.scriptQueue;
-    scriptQueue.push({type:"location",args:new ScriptArguments("name"),continue:true})
-    scriptQueue.push({type:"textbox",args:new ScriptArguments("chill dude"),continue:false})
-    scriptQueue.push({type:"textbox",args:new ScriptArguments(""),continue:false})
-    scriptQueue.push({type:"textbox",args:new ScriptArguments("wow, such meme"),continue:false})
+    scriptQueue.push({ type: "location", args: new ScriptArguments("name"), continue: true })
+    scriptQueue.push({ type: "textbox", args: new ScriptArguments("chill dude"), continue: false })
+    scriptQueue.push({ type: "textbox", args: new ScriptArguments(""), continue: false })
+    scriptQueue.push({ type: "textbox", args: new ScriptArguments("wow, such meme"), continue: false })
     game.Script.nextScript()
 }
