@@ -6,7 +6,7 @@
         },
         {
             "src": "img/pc_back/ppcc_rj45.png",
-            "id": "rj45"
+            "name": "rj45"
         }
     ]
 }

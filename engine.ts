@@ -1,3 +1,9 @@
+window.addEventListener("load",()=>{
+    if (navigator.userAgent.toLowerCase().indexOf(' electron/') > -1) {
+        document.getElementById("grab").classList.remove("hide");
+    }
+})
+
 const LOAD_DELAY = 500;
 
 enum Status {
@@ -13,11 +19,11 @@ class Loader {
 
     constructor() {
         this.onEmptyCallbacks = [];
-        var queue: Array<string> = [];
-        var ldr = this;
+        let queue: Array<string> = [];
+        let ldr = this;
         ['pop', 'push', 'splice', 'filter'].forEach((m) => {
             queue[m] = function () {
-                var res = Array.prototype[m].apply(queue, arguments);
+                let res = Array.prototype[m].apply(queue, arguments);
                 if (ldr.queue.length == 0) {
                     ldr.onEmptyCallbacks.forEach((callback: Function) => {
                         callback();
@@ -28,7 +34,7 @@ class Loader {
         });
 
         Array.prototype["remove"] = function (item) {
-            var L = this.length, ax: number;
+            let L = this.length, ax: number;
             while (L && this.length) {
                 item = this[--L];
                 while ((ax = this.indexOf(item)) !== -1) {
@@ -42,7 +48,7 @@ class Loader {
     };
 
     get(url: string) {
-        var xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
         xhr.open('GET', url, true);
         xhr.send();
         return xhr;
@@ -50,8 +56,8 @@ class Loader {
 
     getGame(url: string) {
         this.queue.push(url);
-        var game = new Game(this, url);
-        var xhr = this.get(url);
+        let game = new Game(this, url);
+        let xhr = this.get(url);
         xhr.onreadystatechange = () => {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 game.init(JSON.parse(xhr.responseText));
@@ -64,10 +70,10 @@ class Loader {
         return game;
     }
 
-    getGameLocation(url: string) {
+    getGameLocation(game: Game, url: string) {
         this.queue.push(url);
-        var xhr = this.get(url);
-        var loc = new GameLocation(this);
+        let xhr = this.get(url);
+        let loc = new GameLocation(this, game);
         xhr.onreadystatechange = () => {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 loc.init(JSON.parse(xhr.responseText));
@@ -80,7 +86,7 @@ class Loader {
     }
 
     getImage(url: string) {
-        var img = new Image();
+        let img = new Image();
         this.queue.push(url);
         img.addEventListener("load", () => setTimeout(() => {
             this.queue["remove"](url);
@@ -90,13 +96,20 @@ class Loader {
     }
 
     loadScript(url: string) {
-        var script = document.createElement("script");
+        console.log(`loading script : ${url}`);
+        let script = document.createElement("script");
         this.queue.push(url);
-        script.addEventListener("load", () => setTimeout(() => {
-            document.getElementsByTagName("head")[0].appendChild(script);
+        script.addEventListener("load", () => {
+            console.log("script has been loaded");
             this.queue["remove"](url);
-        }, LOAD_DELAY));
+        });
+        script.addEventListener('error', (ev) => {
+            console.log(this);
+        })
         script.src = url;
+        let d = document;
+        let head = d.getElementsByTagName('head')[0] || d.body || d.documentElement;
+        head.append(script);
     }
 };
 
@@ -110,9 +123,10 @@ class Game {
     mapData: object;
     isMapReady: boolean = false;
     private drawingTool = new DrawingTool(this);
+    commands: Map<string, IGameCommand>;
 
     set showMinimap(b: boolean) {
-        var map = document.getElementById("minimap");
+        let map = document.getElementById("minimap");
         if (b)
             map.classList.remove("hide");
         else map.classList.add("hide");
@@ -141,6 +155,7 @@ class Game {
     }
 
     constructor(loader, url) {
+        this.commands = new Map<string, IGameCommand>();
         this.Loader = loader;
         this.Locations = new Map<String, GameLocation>();
         this.URL = url
@@ -148,14 +163,14 @@ class Game {
 
     init(data: object) {
         this.Loader.onEmptyCallbacks.push(() => {
-            var t = this;
+            let t = this;
             t.loadLocation(t.CurrentLocation);
             console.log('STARTING DEFAULT LOCATION')
             this.Script.nextScript();
         });
         data["locations"].forEach((name: string) => {
-            var locationUrl = new URL(`./locations/${name}.json`, this.URL).href;
-            this.Locations[name] = this.Loader.getGameLocation(locationUrl);
+            let locationUrl = new URL(`./locations/${name}.json`, this.URL).href;
+            this.Locations.set(name, this.Loader.getGameLocation(this, locationUrl));
         });
         this.mapData = data["map"];
         this.CurrentLocation = data["default"];
@@ -168,12 +183,12 @@ class Game {
     loadMap() {
         if (this.isMapReady)
             return;
-        var map = document.getElementById("minimap");
+        let map = document.getElementById("minimap");
         map.style.backgroundImage = `url("${this.mapData["background"]}")`;
         map.style.width = this.mapData["size"]["width"] + "px";
         map.style.height = this.mapData["size"]["height"] + "px";
         this.mapData["mapItems"].forEach(mapItem => {
-            var img = document.createElement("img") as HTMLImageElement;
+            let img = document.createElement("img") as HTMLImageElement;
             img.style.position = "absolute";
             img.style.left = mapItem["x"] + 'px';
             img.style.top = mapItem["y"] + 'px';
@@ -191,50 +206,111 @@ class Game {
     loadLocation(name: string) {
         this.loadMap();
         this.CurrentLocation = name;
-        var loc = this.Locations[this.CurrentLocation] as GameLocation;
-        var bgr = document.getElementById("background") as HTMLCanvasElement;
+        let loc = this.Locations.get(this.CurrentLocation) as GameLocation;
+        let bgr = document.getElementById("background") as HTMLCanvasElement;
         this.drawingTool.putImage(bgr, loc.background);
-        var items = document.getElementById("items");
+        let items = document.getElementById("items");
         items.innerHTML = '';
+        items.addEventListener("click", (e) => {
+            let width = parseInt(getComputedStyle(items).width),
+                height = parseInt(getComputedStyle(items).height);
+            let wratio = bgr.width / width,
+                hratio = bgr.height / height;
+            let x = Math.round(e.offsetX * wratio);
+            let y = Math.round(e.offsetY * hratio);
+            let children = items.childNodes
+            for (let i = 0; i < children.length; i++) {
+                console.log(`(${x},${y})`);
+                let c = children[i] as HTMLCanvasElement;
+                let alpha = c.getContext("2d").getImageData(x, y, 1, 1).data[3];
+                if (alpha > 0) {
+                    loc.items.get(c.id).click();
+                }
+            }
+        });
         loc.items.forEach(item => {
-            var cnv = this.drawingTool.createCanvas(item["name"]);
+            let cnv = this.drawingTool.createCanvas(item.name);
+            cnv.classList.add("item");
+            if (item.active)
+                cnv.classList.add("active");
             items.appendChild(cnv);
             this.drawingTool.putImage(
-                cnv, loc.images[item["src"]],
-                item["x"], item["y"],
-                item["width"], item["height"]
+                cnv, item.image,
+                item.x, item.y,
+                item.width, item.height
             );
-        });
+        }, false);
     }
 }
 
+interface IGameCommand {
+    Execute(game: Game);
+}
+
 class GameLocation {
+    game: Game;
     images: Map<string, HTMLImageElement>;
     background: HTMLImageElement;
     status: Status;
     loader: Loader;
-    items: Array<string>;
+    items: Map<string, GameItem>;
 
-    constructor(loader: Loader) {
+    constructor(loader: Loader, game: Game) {
+        this.game = game;
         this.loader = loader;
         this.images = new Map();
         this.status = Status.LOADING;
+        this.items = new Map();
     }
 
     init(data: object) {
-        this.items = data["items"];
-        data["items"].forEach((item) => {
-            var key: string = !!item.id ? item["id"] : item["src"];
-            this.images[key] = this.loader.getImage(item["src"]);
+        data["items"].forEach((itemData) => {
+            let item = new GameItem(this, itemData);
+            this.items.set(item.name, item);
         })
         this.background = this.loader.getImage(data["background"]);
     }
 }
 
+class GameItem {
+    location: GameLocation;
+    game: Game;
+    onclick: Array<string>;
+    image: HTMLImageElement;
+    src: string;
+    name: string;
+    active: boolean;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+
+    constructor(loc: GameLocation, data: object) {
+        this.location = loc;
+        this.onclick = [];
+        this.game = loc.game;
+        this.active = !!data["active"];
+        this.x = data["x"];
+        this.y = data["y"];
+        this.width = data["width"];
+        this.height = data["height"];
+        if (!!data["onClick"] && data["onClick"].length > 0)
+            this.onclick.push(data["onClick"]);
+        this.name = !!data["name"] ? data["name"] : data["src"];
+        this.image = loc.loader.getImage(data["src"]);
+    }
+
+    click() {
+        this.onclick.forEach(command => {
+            this.game.commands.get(command).Execute(this.game);
+        });
+    }
+}
+
 class DrawingTool {
     private game: Game;
-    private width: number;
-    private height: number;
+    width: number;
+    height: number;
 
     setResolution(resolution: object) {
         this.width = resolution["width"];
@@ -253,15 +329,15 @@ class DrawingTool {
     }
 
     prepare(canvas: HTMLCanvasElement) {
-        var computed = window.getComputedStyle(canvas);
+        let computed = window.getComputedStyle(canvas);
         canvas.width = this.width;
         canvas.height = this.height;
-        var ctx = canvas.getContext('2d');
+        let ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
     createCanvas(id: string) {
-        var cnv = document.createElement('canvas') as HTMLCanvasElement;
+        let cnv = document.createElement('canvas') as HTMLCanvasElement;
         cnv.id = id;
         return cnv;
     }
@@ -297,17 +373,16 @@ class QuestEngine {
     private game: Game;
 
     add(name: string, tasks: Array<QuestTask>) {
-        console.log(tasks);
         this.queue.push(new Quest(name, tasks));
         this.hide(false)
         this.draw()
     };
 
     isComplete(questName: string, taskName: string) {
-        var quest = this.queue.find(a => a.name == questName);
+        let quest = this.queue.find(a => a.name == questName);
         if (!quest)
             return;
-        var task = quest.tasks.find(a => a.name == taskName);
+        let task = quest.tasks.find(a => a.name == taskName);
         return (task.current >= task.max)
     };
 
@@ -321,13 +396,13 @@ class QuestEngine {
     };
 
     draw() {
-        var title = document.getElementById("quest-header");
+        let title = document.getElementById("quest-header");
         title.innerHTML = this.queue[0].name;
 
-        var taskList = document.getElementById("task-list");
+        let taskList = document.getElementById("task-list");
         taskList.innerHTML = "";
         this.queue[0].tasks.forEach((task => {
-            var t = document.createElement("div");
+            let t = document.createElement("div");
             t.classList.add("quest-item");
             t.innerText = task.name + " - " + task.current + "/" + task.max;
             if (task.current >= task.max)
@@ -337,14 +412,14 @@ class QuestEngine {
     };
 
     update(questName: string, taskName: string, count: number) {
-        var q = this.queue.findIndex(a => a.name == questName);
-        var t = this.queue[q].tasks.findIndex(a => a.name == taskName)
+        let q = this.queue.findIndex(a => a.name == questName);
+        let t = this.queue[q].tasks.findIndex(a => a.name == taskName)
         this.queue[q].tasks[t].current += count;
         this.draw();
     };
 
     hide(hidden: boolean) {
-        var q = document.getElementById("quest");
+        let q = document.getElementById("quest");
         if (hidden || this.queue.length == 0) {
             q.classList.add("hide");
             return;
@@ -388,7 +463,7 @@ class ScriptEngine {
     private game: Game;
 
     nextScript() {
-        var action = this.scriptQueue.shift();
+        let action = this.scriptQueue.shift();
 
         if (action == undefined) {
             this.scriptIsActive = false;
@@ -411,8 +486,11 @@ class ScriptEngine {
                 this.game.showGUI = action.args.bool;
                 break;
             case "quest":
-                console.log(action);
                 this.game.Quest.add(action.args.str, action.args.list)
+                break;
+            case "command":
+                if (this.game.commands.has(action.args.str))
+                    this.game.commands.get(action.args.str).Execute(this.game);
                 break;
         }
 
@@ -423,8 +501,8 @@ class ScriptEngine {
     constructor(game: Game, data: Array<ScriptItem>) {
         this.game = game;
         this.scriptQueue = data;
-        var script = this;
-        var skipClick = (e: any) => {
+        let script = this;
+        let skipClick = (e: any) => {
             switch (e.type) {
                 case "click":
                     script.nextScript();
@@ -440,7 +518,7 @@ class ScriptEngine {
     }
 
     textbox(str: string) {
-        var box = document.getElementById("textbox");
+        let box = document.getElementById("textbox");
         if (str == undefined || str.length == 0) {
             box.classList.add("hide");
             return;

@@ -4,15 +4,17 @@
     "description": "2D point&click sysadmin simulator",
     "main": "index.js",
     "scripts": {
-        "start": "electron .",
+        "start": "electron . --experimental-modules",
         "package:win": "electron-packager . --overwrite --platform=win32 --arch=x64 --out=out",
         "package:linux": "electron-packager . --overwrite --platform=linux --arch=x64 --out=out"
     },
     "author": "INTERN PROJECT",
     "license": "copyright",
     "dependencies": {
+        "dotenv": "^8.2.0",
         "electron": "^9.0.0",
         "electron-aspectratio": "^1.0.1",
         "electron-packager": "^14.2.1"
-    }
+    },
+    "devDependencies": {}
 }

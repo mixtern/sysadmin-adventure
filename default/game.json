@@ -12,64 +12,14 @@
         "meme",
         "title_screen"
     ],
-    "default": "hq",
+    "default": "title_screen",
     "script": [
         {
             "type": "gui",
             "args": {
                 "bool": false
             },
-            "continue": true
-        },
-        {
-            "type": "textbox",
-            "args": {
-                "str": "Добро пожаловать в нашу компанию!"
-            }
-        },
-        {
-            "type": "textbox",
-            "args": {
-                "str": "Наша компания сейчас активно растёт, и мы решили переехать в этот новый офис"
-            }
-        },
-        {
-            "type": "textbox",
-            "args": {
-                "str": "Твоя задача - подготовить офис к работе, вперёд!"
-            }
-        },
-        {
-            "type": "textbox",
-            "args": {
-                "str": ""
-            },
-            "continue": true
-        },
-        {
-            "type": "gui",
-            "args": {
-                "bool": true
-            },
-            "continue": true
-        },
-        {
-            "type": "quest",
-            "args": {
-                "str": "Подготовить компьютеры в офисе",
-                "list": [
-                    {
-                        "name": "подключить компьютеры к сети",
-                        "current": 0,
-                        "max": 2
-                    },
-                    {
-                        "name": "доложить боссу",
-                        "current": 0,
-                        "max": 1
-                    }
-                ]
-            }
+            "continue": false
         }
     ],
     "map": {
@@ -117,5 +67,5 @@
             }
         ]
     },
-    "externalHandler": "sysadmin.js"
+    "externalHandler": "default/sysadmin.js"
 }

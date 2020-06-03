@@ -14,6 +14,7 @@ body,
 div#content,
 img#bgr,
 canvas {
+    border    : none;
     width   : 100%;
     height  : 100%;
     overflow: hidden;
@@ -50,15 +51,15 @@ div {
 }
 
 div#grab {
-    width              : 100%;
-    height             : 30px;
-    background-color   : black;
-    opacity            : 0.5;
+    width                 : 100%;
+    height                : 30px;
+    background-color      : black;
+    opacity               : 0.5;
     -webkit-user-select: none;
-    -webkit-app-region : drag;
-    position           : fixed;
-    top                : 0;
-    left               : 0;
+    -webkit-app-region    : drag;
+    position              : fixed;
+    top                   : 0;
+    left                  : 0;
 }
 
 div#grab * {
@@ -84,25 +85,26 @@ div#textbox {
 
 div#items,
 .item {
-    pointer-events: none;
-    top           : 0;
-    left          : 0;
-    position      : absolute;
-    height        : 100%;
-    width         : 100%;
+    top     : 0;
+    left    : 0;
+    position: absolute;
+    height  : 100%;
+    width   : 100%;
+
 }
 
 .item:not(.active) {
-    filter: drop-shadow(0 0 3px rgba(0, 0, 0, 1));
+    pointer-events: none;
+    filter        : drop-shadow(0 0 3px rgba(0, 0, 0, 1));
 }
 
 .item.active {
     filter        : drop-shadow(-1px 1px #6f0) drop-shadow(1px 1px #6f0) drop-shadow(1px -1px #6f0) drop-shadow(-1px -1px #6f0);
-    pointer-events: all;
+    pointer-events: none;
 }
 
 div#minimap {
-    position: absolute;
+    position       : absolute;
     top            : 35px;
     right          : 10px;
     background-size: 100% 100%;

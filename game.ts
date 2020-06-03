@@ -1,3 +1,5 @@
+/// <reference path="./engine.ts" />
+
 // var locations = {
 //     office:{
 //         background:"img/office/office_background.png",
@@ -113,10 +115,27 @@ function full() {
 }
 
 function meme_test() {
-    var scriptQueue = game.Script.scriptQueue;
-    scriptQueue.push({ type: "location", args: new ScriptArguments("name"), continue: true })
-    scriptQueue.push({ type: "textbox", args: new ScriptArguments("chill dude"), continue: false })
-    scriptQueue.push({ type: "textbox", args: new ScriptArguments(""), continue: false })
-    scriptQueue.push({ type: "textbox", args: new ScriptArguments("wow, such meme"), continue: false })
+    var q = game.Script.scriptQueue;
+    q.push(new ScriptItem("location", new ScriptArguments("meme"), true));
+    q.push(new ScriptItem("textbox", new ScriptArguments("chill dude"), false));
+    q.push(new ScriptItem("textbox", new ScriptArguments(""), false));
+    q.push(new ScriptItem("textbox", new ScriptArguments("wow, such meme"), false));
     game.Script.nextScript()
+}
+
+function test_canvas(cnv: HTMLCanvasElement, x, y,regionSize) {
+    let ctx = cnv.getContext("2d");
+    let canvas = document.createElement("canvas");
+    canvas.id = "test";
+    canvas.classList.add("item");
+    canvas.width = 3200;
+    canvas.height = 1800;
+    document.getElementById("items").appendChild(canvas);
+    let ctx2 = canvas.getContext("2d");
+    let xx = Math.max(0, x - regionSize);
+    let yy = Math.max(0, y - regionSize);
+    let width = Math.min(3200, x + regionSize)-xx;
+    let height = Math.min(1800, y + regionSize)-yy;
+    let data = ctx.getImageData(xx,yy,width,height);
+    ctx2.putImageData(data,0,0);
 }

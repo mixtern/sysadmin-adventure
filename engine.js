@@ -1,3 +1,8 @@
+window.addEventListener("load", function () {
+    if (navigator.userAgent.toLowerCase().indexOf(' electron/') > -1) {
+        document.getElementById("grab").classList.remove("hide");
+    }
+});
 var LOAD_DELAY = 500;
 var Status;
 (function (Status) {
@@ -58,11 +63,11 @@ var Loader = /** @class */ (function () {
         game.Script = null;
         return game;
     };
-    Loader.prototype.getGameLocation = function (url) {
+    Loader.prototype.getGameLocation = function (game, url) {
         var _this = this;
         this.queue.push(url);
         var xhr = this.get(url);
-        var loc = new GameLocation(this);
+        var loc = new GameLocation(this, game);
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 loc.init(JSON.parse(xhr.responseText));
@@ -85,13 +90,20 @@ var Loader = /** @class */ (function () {
     };
     Loader.prototype.loadScript = function (url) {
         var _this = this;
+        console.log("loading script : " + url);
         var script = document.createElement("script");
         this.queue.push(url);
-        script.addEventListener("load", function () { return setTimeout(function () {
-            document.getElementsByTagName("head")[0].appendChild(script);
+        script.addEventListener("load", function () {
+            console.log("script has been loaded");
             _this.queue["remove"](url);
-        }, LOAD_DELAY); });
+        });
+        script.addEventListener('error', function (ev) {
+            console.log(_this);
+        });
         script.src = url;
+        var d = document;
+        var head = d.getElementsByTagName('head')[0] || d.body || d.documentElement;
+        head.append(script);
     };
     return Loader;
 }());
@@ -100,6 +112,7 @@ var Game = /** @class */ (function () {
     function Game(loader, url) {
         this.isMapReady = false;
         this.drawingTool = new DrawingTool(this);
+        this.commands = new Map();
         this.Loader = loader;
         this.Locations = new Map();
         this.URL = url;
@@ -149,7 +162,7 @@ var Game = /** @class */ (function () {
         });
         data["locations"].forEach(function (name) {
             var locationUrl = new URL("./locations/" + name + ".json", _this.URL).href;
-            _this.Locations[name] = _this.Loader.getGameLocation(locationUrl);
+            _this.Locations.set(name, _this.Loader.getGameLocation(_this, locationUrl));
         });
         this.mapData = data["map"];
         this.CurrentLocation = data["default"];
@@ -185,35 +198,77 @@ var Game = /** @class */ (function () {
         var _this = this;
         this.loadMap();
         this.CurrentLocation = name;
-        var loc = this.Locations[this.CurrentLocation];
+        var loc = this.Locations.get(this.CurrentLocation);
         var bgr = document.getElementById("background");
         this.drawingTool.putImage(bgr, loc.background);
         var items = document.getElementById("items");
         items.innerHTML = '';
-        loc.items.forEach(function (item) {
-            var cnv = _this.drawingTool.createCanvas(item["name"]);
-            items.appendChild(cnv);
-            _this.drawingTool.putImage(cnv, loc.images[item["src"]], item["x"], item["y"], item["width"], item["height"]);
+        items.addEventListener("click", function (e) {
+            var width = parseInt(getComputedStyle(items).width), height = parseInt(getComputedStyle(items).height);
+            var wratio = bgr.width / width, hratio = bgr.height / height;
+            var x = Math.round(e.offsetX * wratio);
+            var y = Math.round(e.offsetY * hratio);
+            var children = items.childNodes;
+            for (var i = 0; i < children.length; i++) {
+                console.log("(" + x + "," + y + ")");
+                var c = children[i];
+                var alpha = c.getContext("2d").getImageData(x, y, 1, 1).data[3];
+                if (alpha > 0) {
+                    loc.items.get(c.id).click();
+                }
+            }
         });
+        loc.items.forEach(function (item) {
+            var cnv = _this.drawingTool.createCanvas(item.name);
+            cnv.classList.add("item");
+            if (item.active)
+                cnv.classList.add("active");
+            items.appendChild(cnv);
+            _this.drawingTool.putImage(cnv, item.image, item.x, item.y, item.width, item.height);
+        }, false);
     };
     return Game;
 }());
 var GameLocation = /** @class */ (function () {
-    function GameLocation(loader) {
+    function GameLocation(loader, game) {
+        this.game = game;
         this.loader = loader;
         this.images = new Map();
         this.status = Status.LOADING;
+        this.items = new Map();
     }
     GameLocation.prototype.init = function (data) {
         var _this = this;
-        this.items = data["items"];
-        data["items"].forEach(function (item) {
-            var key = !!item.id ? item["id"] : item["src"];
-            _this.images[key] = _this.loader.getImage(item["src"]);
+        data["items"].forEach(function (itemData) {
+            var item = new GameItem(_this, itemData);
+            _this.items.set(item.name, item);
         });
         this.background = this.loader.getImage(data["background"]);
     };
     return GameLocation;
+}());
+var GameItem = /** @class */ (function () {
+    function GameItem(loc, data) {
+        this.location = loc;
+        this.onclick = [];
+        this.game = loc.game;
+        this.active = !!data["active"];
+        this.x = data["x"];
+        this.y = data["y"];
+        this.width = data["width"];
+        this.height = data["height"];
+        if (!!data["onClick"] && data["onClick"].length > 0)
+            this.onclick.push(data["onClick"]);
+        this.name = !!data["name"] ? data["name"] : data["src"];
+        this.image = loc.loader.getImage(data["src"]);
+    }
+    GameItem.prototype.click = function () {
+        var _this = this;
+        this.onclick.forEach(function (command) {
+            _this.game.commands.get(command).Execute(_this.game);
+        });
+    };
+    return GameItem;
 }());
 var DrawingTool = /** @class */ (function () {
     function DrawingTool(game) {
@@ -265,7 +320,6 @@ var QuestEngine = /** @class */ (function () {
         this.game = game;
     }
     QuestEngine.prototype.add = function (name, tasks) {
-        console.log(tasks);
         this.queue.push(new Quest(name, tasks));
         this.hide(false);
         this.draw();
@@ -383,8 +437,11 @@ var ScriptEngine = /** @class */ (function () {
                 this.game.showGUI = action.args.bool;
                 break;
             case "quest":
-                console.log(action);
                 this.game.Quest.add(action.args.str, action.args.list);
+                break;
+            case "command":
+                if (this.game.commands.has(action.args.str))
+                    this.game.commands.get(action.args.str).Execute(this.game);
                 break;
         }
         if (action.continue)
