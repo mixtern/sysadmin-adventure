@@ -90,15 +90,15 @@ var Loader = /** @class */ (function () {
     };
     Loader.prototype.loadScript = function (url) {
         var _this = this;
-        console.log("loading script : " + url);
+        console.debug("loading script : " + url);
         var script = document.createElement("script");
         this.queue.push(url);
         script.addEventListener("load", function () {
-            console.log("script has been loaded");
+            console.debug("script has been loaded");
             _this.queue["remove"](url);
         });
         script.addEventListener('error', function (ev) {
-            console.log(_this);
+            console.error(_this);
         });
         script.src = url;
         var d = document;
@@ -157,7 +157,7 @@ var Game = /** @class */ (function () {
         this.Loader.onEmptyCallbacks.push(function () {
             var t = _this;
             t.loadLocation(t.CurrentLocation);
-            console.log('STARTING DEFAULT LOCATION');
+            console.debug('STARTING DEFAULT LOCATION');
             _this.Script.nextScript();
         });
         data["locations"].forEach(function (name) {
@@ -203,21 +203,23 @@ var Game = /** @class */ (function () {
         this.drawingTool.putImage(bgr, loc.background);
         var items = document.getElementById("items");
         items.innerHTML = '';
-        items.addEventListener("click", function (e) {
+        items.removeEventListener("click", this.listener);
+        this.listener = function (e) {
             var width = parseInt(getComputedStyle(items).width), height = parseInt(getComputedStyle(items).height);
             var wratio = bgr.width / width, hratio = bgr.height / height;
             var x = Math.round(e.offsetX * wratio);
             var y = Math.round(e.offsetY * hratio);
             var children = items.childNodes;
+            console.debug("(" + x + "," + y + ")");
             for (var i = 0; i < children.length; i++) {
-                console.log("(" + x + "," + y + ")");
                 var c = children[i];
                 var alpha = c.getContext("2d").getImageData(x, y, 1, 1).data[3];
                 if (alpha > 0) {
                     loc.items.get(c.id).click();
                 }
             }
-        });
+        };
+        items.addEventListener("click", this.listener);
         loc.items.forEach(function (item) {
             var cnv = _this.drawingTool.createCanvas(item.name);
             cnv.classList.add("item");

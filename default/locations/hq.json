@@ -3,7 +3,8 @@
     "items": [
         {
             "name": "boss",
-            "src": "img/boss_room/boss.svg"
+            "src": "img/boss_room/boss.svg",
+            "onClick":"talk"
         },
         {
             "name": "chair",

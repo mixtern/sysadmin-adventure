@@ -96,15 +96,15 @@ class Loader {
     }
 
     loadScript(url: string) {
-        console.log(`loading script : ${url}`);
+        console.debug(`loading script : ${url}`);
         let script = document.createElement("script");
         this.queue.push(url);
         script.addEventListener("load", () => {
-            console.log("script has been loaded");
+            console.debug("script has been loaded");
             this.queue["remove"](url);
         });
         script.addEventListener('error', (ev) => {
-            console.log(this);
+            console.error(this);
         })
         script.src = url;
         let d = document;
@@ -124,6 +124,7 @@ class Game {
     isMapReady: boolean = false;
     private drawingTool = new DrawingTool(this);
     commands: Map<string, IGameCommand>;
+    private listener:EventListener;
 
     set showMinimap(b: boolean) {
         let map = document.getElementById("minimap");
@@ -165,7 +166,7 @@ class Game {
         this.Loader.onEmptyCallbacks.push(() => {
             let t = this;
             t.loadLocation(t.CurrentLocation);
-            console.log('STARTING DEFAULT LOCATION')
+            console.debug('STARTING DEFAULT LOCATION')
             this.Script.nextScript();
         });
         data["locations"].forEach((name: string) => {
@@ -211,7 +212,8 @@ class Game {
         this.drawingTool.putImage(bgr, loc.background);
         let items = document.getElementById("items");
         items.innerHTML = '';
-        items.addEventListener("click", (e) => {
+        items.removeEventListener("click",this.listener);
+        this.listener = (e:MouseEvent) => {
             let width = parseInt(getComputedStyle(items).width),
                 height = parseInt(getComputedStyle(items).height);
             let wratio = bgr.width / width,
@@ -219,15 +221,16 @@ class Game {
             let x = Math.round(e.offsetX * wratio);
             let y = Math.round(e.offsetY * hratio);
             let children = items.childNodes
+            console.debug(`(${x},${y})`);
             for (let i = 0; i < children.length; i++) {
-                console.log(`(${x},${y})`);
                 let c = children[i] as HTMLCanvasElement;
                 let alpha = c.getContext("2d").getImageData(x, y, 1, 1).data[3];
                 if (alpha > 0) {
                     loc.items.get(c.id).click();
                 }
             }
-        });
+        }
+        items.addEventListener("click", this.listener);
         loc.items.forEach(item => {
             let cnv = this.drawingTool.createCanvas(item.name);
             cnv.classList.add("item");

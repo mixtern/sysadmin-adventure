@@ -1,20 +1,5 @@
 /// <reference path="./engine.ts" />
 
-// var locations = {
-//     office:{
-//         background:"img/office/office_background.png",
-//         items:[{src:"img/office/office_desk_0L.png"},
-//                {src:"img/office/office_desk_0R.png"},
-//                {src:"img/office/office_desk_1L.png"},
-//                {src:"img/office/office_desk_1R.png", active:true, action:()=>{
-//                     lastComputer = 3;
-//                     changeLocation("officePC");
-//                 }},
-//                {src:"img/office/office_desk_2L.png", active:true, action:()=>{
-//                     lastComputer = 4;
-//                     changeLocation("officePC");
-//             }},
-//                {src:"img/office/office_desk_2R.png"}]
 //     },
 //     officePC:{
 //         onload(){

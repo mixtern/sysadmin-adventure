@@ -6,7 +6,17 @@
         },
         {
             "src": "img/pc_back/ppcc_rj45.png",
-            "name": "rj45"
+            "name": "rj45",
+            "onClick": "plug"
+        },
+        {
+            "name": "button_back",
+            "src": "img/back.svg",
+            "onClick": "backToOffice",
+            "x": 2700,
+            "y": 85,
+            "width":70,
+            "height":70
         }
     ]
 }
