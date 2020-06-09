@@ -1,4 +1,4 @@
-window.addEventListener("load",()=>{
+window.addEventListener("load", () => {
     if (navigator.userAgent.toLowerCase().indexOf(' electron/') > -1) {
         document.getElementById("grab").classList.remove("hide");
     }
@@ -124,7 +124,7 @@ class Game {
     isMapReady: boolean = false;
     private drawingTool = new DrawingTool(this);
     commands: Map<string, IGameCommand>;
-    private listener:EventListener;
+    private listener: EventListener;
 
     set showMinimap(b: boolean) {
         let map = document.getElementById("minimap");
@@ -212,10 +212,10 @@ class Game {
         this.drawingTool.putImage(bgr, loc.background);
         let items = document.getElementById("items");
         items.innerHTML = '';
-        items.removeEventListener("click",this.listener);
-        this.listener = (e:MouseEvent) => {
+        items.removeEventListener("click", this.listener);
+        this.listener = (e: MouseEvent) => {
             let width = parseInt(getComputedStyle(items).width),
-                height = parseInt(getComputedStyle(items).height);
+                height = parseInt(getComputedStyle(items).height)
             let wratio = bgr.width / width,
                 hratio = bgr.height / height;
             let x = Math.round(e.offsetX * wratio);

@@ -41,11 +41,11 @@ game.commands.set("connect_0L", {
     }
 });
 function cableFollow(e) {
-    var t = document.getElementById("rj45");
+    var t = document.getElementById("rj45"), items = document.getElementById("items"), rectangle = items.getBoundingClientRect();
     if (t == null)
         return;
-    t.style.left = "calc(" + e.pageX + "px  - " + 48 + "%)";
-    t.style.top = "calc(" + e.pageY + "px - " + 50 + "%)";
+    t.style.left = "calc(" + (e.pageX - rectangle.left) + "px  - " + 48 + "%)";
+    t.style.top = "calc(" + (e.pageY - rectangle.top) + "px - " + 50 + "%)";
 }
 function connect(game, name) {
     var pc = game.Locations.get("office").items.get(name);

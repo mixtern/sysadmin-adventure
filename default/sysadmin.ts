@@ -3,7 +3,7 @@
 
 let data = {
     connected: [],
-    currentPC:{}
+    currentPC: {}
 }
 
 game.commands.set("start", {
@@ -48,11 +48,13 @@ game.commands.set("connect_0L", {
 })
 
 function cableFollow(e: MouseEvent) {
-    var t = document.getElementById("rj45");
+    var t = document.getElementById("rj45"),
+        items = document.getElementById("items"),
+        rectangle = items.getBoundingClientRect();
     if (t == null)
         return;
-    t.style.left = "calc(" + e.pageX + "px  - " + 48 + "%)";
-    t.style.top = "calc(" + e.pageY + "px - " + 50 + "%)";
+    t.style.left = "calc(" + (e.pageX - rectangle.left) + "px  - " + 48 + "%)";
+    t.style.top = "calc(" + (e.pageY - rectangle.top) + "px - " + 50 + "%)";
 }
 
 function connect(game: Game, name: string) {
@@ -83,7 +85,6 @@ game.commands.set("plug", {
     }
 })
 
-
 game.commands.set("backToOffice", {
     Execute(game: Game) {
         window.removeEventListener("mousemove", cableFollow);
@@ -96,7 +97,7 @@ game.commands.set("talk", {
         if (!game.Locations.get("hq").items.get("boss").active)
             return;
         game.Locations.get("hq").items.get("boss").active = false;
-        game.Quest.update("Подготовить компьютеры в офисе","доложить боссу",1)
+        game.Quest.update("Подготовить компьютеры в офисе", "доложить боссу", 1)
         game.showMinimap = false;
         game.Script.textbox("Отличная работа!");
     }
