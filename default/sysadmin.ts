@@ -3,7 +3,7 @@
 
 let data = {
     connected: [],
-    currentPC: new GameItem(new GameLocation(game.Loader, game), {})
+    currentPC:{}
 }
 
 game.commands.set("start", {
@@ -76,7 +76,8 @@ game.commands.set("plug", {
             if (game.Quest.isComplete("Подготовить компьютеры в офисе", "подключить компьютеры к сети")) {
                 game.Locations.get("hq").items.get("boss").active = true;
             }
-            data.currentPC.active = false;
+            var pc = data.currentPC as GameItem;
+            pc.active = false;
             game.commands.get("backToOffice").Execute(game);
         }
     }
