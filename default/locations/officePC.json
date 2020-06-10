@@ -13,10 +13,10 @@
             "name": "button_back",
             "src": "img/back.svg",
             "onClick": "backToOffice",
-            "x": 2700,
-            "y": 85,
-            "width":70,
-            "height":70
+            "x": 3000,
+            "y": 1700,
+            "width":100,
+            "height":100
         }
     ]
 }
