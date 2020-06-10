@@ -2,10 +2,25 @@
     "background": "img/default.svg",
     "items": [
         {
-            "src": "img/pc_back/pc.png"
+            "src": "img/pc_back/table.svg"
         },
         {
-            "src": "img/pc_back/ppcc_rj45.png",
+            "src": "img/pc_back/pc.svg"
+        },
+        {
+            "src": "img/pc_back/vga.svg"
+        },
+        {
+            "src": "img/pc_back/usb1.svg"
+        },
+        {
+            "src": "img/pc_back/usb0.svg"
+        },
+        {
+            "src": "img/pc_back/power.svg"
+        },
+        {
+            "src": "img/pc_back/rj45.svg",
             "name": "rj45",
             "onClick": "plug"
         },

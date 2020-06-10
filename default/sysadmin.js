@@ -44,7 +44,7 @@ function cableFollow(e) {
     var t = document.getElementById("rj45"), items = document.getElementById("items"), rectangle = items.getBoundingClientRect();
     if (t == null)
         return;
-    t.style.left = "calc(" + (e.pageX - rectangle.left) + "px  - " + 48 + "%)";
+    t.style.left = "calc(" + (e.pageX - rectangle.left) + "px  - " + 71.25 + "%)";
     t.style.top = "calc(" + (e.pageY - rectangle.top) + "px - " + 50 + "%)";
 }
 function connect(game, name) {
@@ -62,7 +62,7 @@ game.commands.set("plug", {
         var x = parseFloat(computed.getPropertyValue("left"));
         var y = parseFloat(computed.getPropertyValue("top"));
         var distance = Math.sqrt(x * x + y * y);
-        if (distance < 5) {
+        if (distance < 10) {
             game.Quest.update("Подготовить компьютеры в офисе", "подключить компьютеры к сети", 1);
             if (game.Quest.isComplete("Подготовить компьютеры в офисе", "подключить компьютеры к сети")) {
                 game.Locations.get("hq").items.get("boss").active = true;
