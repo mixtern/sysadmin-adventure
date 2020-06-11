@@ -57,7 +57,7 @@ function cableFollow(e: MouseEvent) {
     if (t == null)
         return;
     // t.style.left = e.pageX + "px";
-    t.style.left = (e.pageX - rectangle.left - rectangle.width * 0.48) + "px";
+    t.style.left = (e.pageX - rectangle.left - rectangle.width * 0.7125) + "px";
     // t.style.top = e.pageY + "px";
     t.style.top = (e.pageY - rectangle.top - rectangle.height * 0.5) + "px";
 }
@@ -79,7 +79,7 @@ game.commands.set("plug", {
         var x = parseFloat(computed.getPropertyValue("left"));
         var y = parseFloat(computed.getPropertyValue("top"));
         var distance = Math.sqrt(x * x + y * y);
-        if (distance < 5) {
+        if (distance < 10) {
             game.Quest.update("Подготовить компьютеры в офисе", "подключить компьютеры к сети", 1)
             if (game.Quest.isComplete("Подготовить компьютеры в офисе", "подключить компьютеры к сети")) {
                 game.Locations.get("hq").items.get("boss").active = true;

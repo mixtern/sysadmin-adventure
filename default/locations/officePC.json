@@ -1,11 +1,35 @@
 {
-    "background": "img/default.jpg",
+    "background": "img/default.svg",
     "items": [
         {
-            "src": "img/pc_back/pc.png"
+            "src": "img/pc_back/table.svg"
         },
         {
-            "src": "img/pc_back/ppcc_rj45.png",
+            "src": "img/pc_back/screen.svg"
+        },
+        {
+            "src": "img/pc_back/screen_vga.svg"
+        },
+        {
+            "src": "img/pc_back/screen_power.svg"
+        },
+        {
+            "src": "img/pc_back/pc.svg"
+        },
+        {
+            "src": "img/pc_back/pc_vga.svg"
+        },
+        {
+            "src": "img/pc_back/pc_usb0.svg"
+        },
+        {
+            "src": "img/pc_back/pc_usb1.svg"
+        },
+        {
+            "src": "img/pc_back/pc_power.svg"
+        },
+        {
+            "src": "img/pc_back/pc_rj45.svg",
             "name": "rj45",
             "onClick": "plug"
         },
@@ -13,10 +37,10 @@
             "name": "button_back",
             "src": "img/back.svg",
             "onClick": "backToOffice",
-            "x": 2700,
-            "y": 85,
-            "width":70,
-            "height":70
+            "x": 3000,
+            "y": 1700,
+            "width":100,
+            "height":100
         }
     ]
 }

@@ -2,9 +2,7 @@
 /// <reference path="../game.ts" />
 var data = {
     connected: [],
-    currentPC: {},
-    lastMove: Date.now(),
-    cable: {}
+    currentPC: {}
 };
 game.commands.set("start", {
     Execute: function (game) {
@@ -43,16 +41,11 @@ game.commands.set("connect_0L", {
     }
 });
 function cableFollow(e) {
-    var elapsed = Date.now() - data.lastMove;
-    if (elapsed < 50)
-        return;
-    var t = data.cable, rectangle = t.parentElement.getBoundingClientRect();
+    var t = document.getElementById("rj45"), items = document.getElementById("items"), rectangle = items.getBoundingClientRect();
     if (t == null)
         return;
-    // t.style.left = e.pageX + "px";
-    t.style.left = (e.pageX - rectangle.left - rectangle.width * 0.48) + "px";
-    // t.style.top = e.pageY + "px";
-    t.style.top = (e.pageY - rectangle.top - rectangle.height * 0.5) + "px";
+    t.style.left = "calc(" + (e.pageX - rectangle.left) + "px  - " + 71.25 + "%)";
+    t.style.top = "calc(" + (e.pageY - rectangle.top) + "px - " + 50 + "%)";
 }
 function connect(game, name) {
     var pc = game.Locations.get("office").items.get(name);
@@ -60,7 +53,6 @@ function connect(game, name) {
         return;
     data.currentPC = pc;
     game.loadLocation("officePC");
-    data.cable = document.getElementById("rj45");
     window.addEventListener("mousemove", cableFollow);
 }
 game.commands.set("plug", {
@@ -70,7 +62,7 @@ game.commands.set("plug", {
         var x = parseFloat(computed.getPropertyValue("left"));
         var y = parseFloat(computed.getPropertyValue("top"));
         var distance = Math.sqrt(x * x + y * y);
-        if (distance < 5) {
+        if (distance < 10) {
             game.Quest.update("Подготовить компьютеры в офисе", "подключить компьютеры к сети", 1);
             if (game.Quest.isComplete("Подготовить компьютеры в офисе", "подключить компьютеры к сети")) {
                 game.Locations.get("hq").items.get("boss").active = true;
