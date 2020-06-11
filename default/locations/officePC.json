@@ -17,19 +17,19 @@
             "src": "img/pc_back/pc.svg"
         },
         {
-            "src": "img/pc_back/vga.svg"
+            "src": "img/pc_back/pc_vga.svg"
         },
         {
-            "src": "img/pc_back/usb1.svg"
+            "src": "img/pc_back/pc_usb0.svg"
         },
         {
-            "src": "img/pc_back/usb0.svg"
+            "src": "img/pc_back/pc_usb1.svg"
         },
         {
-            "src": "img/pc_back/power.svg"
+            "src": "img/pc_back/pc_power.svg"
         },
         {
-            "src": "img/pc_back/rj45.svg",
+            "src": "img/pc_back/pc_rj45.svg",
             "name": "rj45",
             "onClick": "plug"
         },
