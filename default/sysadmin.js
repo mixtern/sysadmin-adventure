@@ -52,7 +52,7 @@ function connect(game, name) {
     if (!pc.active)
         return;
     data.currentPC = pc;
-    game.loadLocation("officePC");
+    game.loadLocation("officePCBack");
     window.addEventListener("mousemove", cableFollow);
 }
 game.commands.set("plug", {
