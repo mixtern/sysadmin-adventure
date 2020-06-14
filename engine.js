@@ -11,6 +11,7 @@ var Status;
     Status[Status["DONE"] = 2] = "DONE";
     Status[Status["HIDDEN"] = 3] = "HIDDEN";
 })(Status || (Status = {}));
+;
 var Loader = /** @class */ (function () {
     function Loader() {
         this.onEmptyCallbacks = [];
@@ -76,13 +77,16 @@ var Loader = /** @class */ (function () {
         };
         return loc;
     };
-    Loader.prototype.getImage = function (url) {
+    Loader.prototype.getImage = function (url, callback) {
         var _this = this;
+        if (callback === void 0) { callback = function () { }; }
         var img = new Image();
         this.queue.push(url);
         var qUpdate = function () {
-            if (img.complete)
+            if (img.complete) {
+                callback(img);
                 _this.queue["remove"](url);
+            }
             else
                 setTimeout(qUpdate, LOAD_DELAY);
         };
@@ -113,14 +117,16 @@ var Loader = /** @class */ (function () {
 var Game = /** @class */ (function () {
     function Game(url, loader) {
         if (loader === void 0) { loader = new Loader(); }
+        this.Locations = new Map();
         this.isMapReady = false;
         this.drawingTool = new DrawingTool();
-        loader.getGame(url, this);
         this.commands = new Map();
+        loader.getGame(url, this);
         this.Loader = loader;
-        this.Locations = new Map();
         this.URL = url;
     }
+    ;
+    ;
     Object.defineProperty(Game.prototype, "showMinimap", {
         get: function () {
             return document.getElementById("minimap").classList.contains("hide");
@@ -200,14 +206,11 @@ var Game = /** @class */ (function () {
         this.isMapReady = true;
     };
     Game.prototype.loadLocation = function (name) {
-        var _this = this;
         this.loadMap();
         this.CurrentLocation = name;
         var loc = this.Locations.get(this.CurrentLocation);
         var bgr = document.getElementById("background");
         this.drawingTool.putImage(bgr, loc.background);
-        console.log(loc);
-        console.log(loc.background);
         var items = document.getElementById("items");
         items.innerHTML = '';
         items.removeEventListener("click", this.listener);
@@ -222,22 +225,31 @@ var Game = /** @class */ (function () {
                 var c = children[i];
                 var alpha = c.getContext("2d").getImageData(x, y, 1, 1).data[3];
                 if (alpha > 0) {
-                    loc.items.get(c.id).click();
-                    break;
+                    console.log("got a click on " + c.id);
+                    var item = loc.items.get(c.id);
+                    if (item.onclick.length > 0) {
+                        loc.items.get(c.id).click();
+                        break;
+                    }
                 }
             }
         };
         items.addEventListener("click", this.listener);
         loc.items.forEach(function (item) {
-            var cnv = _this.drawingTool.createCanvas(item.name);
+            var cnv = item.canvas;
             cnv.classList.add("item");
             if (item.active)
                 cnv.classList.add("active");
             items.appendChild(cnv);
-            _this.drawingTool.putImage(cnv, item.image, item.x, item.y, item.width, item.height);
+            item.updateCanvas();
         }, false);
     };
     return Game;
+}());
+var GameInventory = /** @class */ (function () {
+    function GameInventory() {
+    }
+    return GameInventory;
 }());
 var GameLocation = /** @class */ (function () {
     function GameLocation(loader, game) {
@@ -258,10 +270,10 @@ var GameLocation = /** @class */ (function () {
 }());
 var GameItem = /** @class */ (function () {
     function GameItem(loc, data) {
-        this.location = loc;
         this.onclick = [];
+        this.image = document.createElement("img");
+        this.location = loc;
         this.game = loc.game;
-        this.active = !!data["active"];
         this.x = data["x"];
         this.y = data["y"];
         this.width = data["width"];
@@ -269,10 +281,36 @@ var GameItem = /** @class */ (function () {
         if (!!data["onClick"] && data["onClick"].length > 0)
             this.onclick.push(data["onClick"]);
         this.name = !!data["name"] ? data["name"] : data["src"];
-        this.image = loc.loader.getImage(data["src"]);
+        this.canvas = this.game.drawingTool.createCanvas(this.name);
+        var t = this;
+        loc.loader.getImage(data["src"], function (image) {
+            t.image = image;
+            t.updateCanvas();
+        });
+        this.active = !!data["active"];
     }
-    GameItem.prototype.putImage = function (image) {
-        this.image = image;
+    Object.defineProperty(GameItem.prototype, "active", {
+        get: function () {
+            this.updateCanvas();
+            return this.canvas.classList.contains("active");
+        },
+        set: function (b) {
+            this.updateCanvas();
+            if (b)
+                this.canvas.classList.add("active");
+            else
+                this.canvas.classList.remove("active");
+        },
+        enumerable: false,
+        configurable: true
+    });
+    GameItem.prototype.updateCanvas = function () {
+        var cnv = document.getElementById(this.name);
+        if (cnv != null)
+            this.canvas = cnv;
+        var dt = this.game.drawingTool;
+        dt.prepare(this.canvas);
+        dt.putImage(this.canvas, this.image, this.x, this.y, this.width, this.height);
     };
     Object.defineProperty(GameItem.prototype, "visible", {
         get: function () {

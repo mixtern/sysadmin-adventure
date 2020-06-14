@@ -13,7 +13,10 @@ enum Status {
     HIDDEN
 }
 
+interface IImageCallback { (img: HTMLImageElement): void };
+
 class Loader {
+
     queue: Array<string>;
     onEmptyCallbacks: Array<Function>;
 
@@ -54,7 +57,7 @@ class Loader {
         return xhr;
     };
 
-    getGame(url: string, game:Game) {
+    getGame(url: string, game: Game) {
         this.queue.push(url);
         let xhr = this.get(url);
         xhr.onreadystatechange = () => {
@@ -83,12 +86,14 @@ class Loader {
         return loc;
     }
 
-    getImage(url: string) {
+    getImage(url: string, callback: IImageCallback = () => { }) {
         let img = new Image();
         this.queue.push(url);
         var qUpdate = () => {
-            if (img.complete)
+            if (img.complete) {
+                callback(img);
                 this.queue["remove"](url);
+            }
             else
                 setTimeout(qUpdate, LOAD_DELAY);
         };
@@ -117,15 +122,16 @@ class Loader {
 
 class Game {
     Script: ScriptEngine;
+    Inventory: GameInventory;
     Quest: QuestEngine;
-    Locations: Map<String, GameLocation>;
+    Locations: Map<String, GameLocation> = new Map<String, GameLocation>();;
     Loader: Loader;
     URL: string;
     CurrentLocation: string;
     mapData: object;
     isMapReady: boolean = false;
-    private drawingTool = new DrawingTool();
-    commands: Map<string, IGameCommand>;
+    drawingTool = new DrawingTool();
+    commands: Map<string, IGameCommand> = new Map<string, IGameCommand>();;
     private listener: EventListener;
 
     set showMinimap(b: boolean) {
@@ -147,7 +153,6 @@ class Game {
         return document.getElementById("quest-header").classList.contains("hide");
     }
 
-
     set showGUI(b: boolean) {
         this.showMinimap = b;
         this.showQuest = b;
@@ -157,11 +162,9 @@ class Game {
         return (this.showQuest || this.showMinimap);
     }
 
-    constructor(url:string,loader:Loader=new Loader()) {
-        loader.getGame(url,this);
-        this.commands = new Map<string, IGameCommand>();
+    constructor(url: string, loader: Loader = new Loader()) {
+        loader.getGame(url, this);
         this.Loader = loader;
-        this.Locations = new Map<String, GameLocation>();
         this.URL = url
     }
 
@@ -214,8 +217,6 @@ class Game {
         let loc = this.Locations.get(this.CurrentLocation) as GameLocation;
         let bgr = document.getElementById("background") as HTMLCanvasElement;
         this.drawingTool.putImage(bgr, loc.background);
-        console.log(loc);
-        console.log(loc.background);
         let items = document.getElementById("items");
         items.innerHTML = '';
         items.removeEventListener("click", this.listener);
@@ -232,29 +233,33 @@ class Game {
                 let c = children[i] as HTMLCanvasElement;
                 let alpha = c.getContext("2d").getImageData(x, y, 1, 1).data[3];
                 if (alpha > 0) {
-                    loc.items.get(c.id).click();
-                    break;
+                    console.log("got a click on " + c.id)
+                    let item = loc.items.get(c.id);
+                    if (item.onclick.length > 0) {
+                        loc.items.get(c.id).click();
+                        break;
+                    }
                 }
             }
         }
         items.addEventListener("click", this.listener);
         loc.items.forEach(item => {
-            let cnv = this.drawingTool.createCanvas(item.name);
+            let cnv = item.canvas;
             cnv.classList.add("item");
             if (item.active)
                 cnv.classList.add("active");
             items.appendChild(cnv);
-            this.drawingTool.putImage(
-                cnv, item.image,
-                item.x, item.y,
-                item.width, item.height
-            );
+            item.updateCanvas();
         }, false);
     }
 }
 
+class GameInventory {
+
+}
+
 interface IGameCommand {
-    Execute(game: Game);
+    Execute(game: Game): void;
 }
 
 class GameLocation {
@@ -281,14 +286,28 @@ class GameLocation {
 }
 
 class GameItem {
-    canvas:HTMLCanvasElement;
+    canvas: HTMLCanvasElement;
     location: GameLocation;
     game: Game;
-    onclick: Array<string>;
-    image: HTMLImageElement;
+    onclick: Array<string> = [];
+    image: HTMLImageElement = document.createElement("img");
     src: string;
     name: string;
-    active: boolean;
+    
+    get active() {
+        this.updateCanvas();
+        return this.canvas.classList.contains("active");
+    }
+
+    set active(b: boolean) {
+        this.updateCanvas();
+        if (b)
+            this.canvas.classList.add("active");
+        else
+            this.canvas.classList.remove("active");
+    }
+
+    private _active:boolean
     x: number;
     y: number;
     width: number;
@@ -296,9 +315,7 @@ class GameItem {
 
     constructor(loc: GameLocation, data: object) {
         this.location = loc;
-        this.onclick = [];
         this.game = loc.game;
-        this.active = !!data["active"];
         this.x = data["x"];
         this.y = data["y"];
         this.width = data["width"];
@@ -306,20 +323,34 @@ class GameItem {
         if (!!data["onClick"] && data["onClick"].length > 0)
             this.onclick.push(data["onClick"]);
         this.name = !!data["name"] ? data["name"] : data["src"];
-        this.image = loc.loader.getImage(data["src"]);
+        this.canvas = this.game.drawingTool.createCanvas(this.name);
+        let t = this;
+        loc.loader.getImage(data["src"], (image: HTMLImageElement) => {
+            t.image = image;
+            t.updateCanvas();
+        });
+        this.active = !!data["active"];
     }
 
-    putImage(image:HTMLImageElement){
-        this.image = image;
-        
+    updateCanvas() {
+        let cnv = document.getElementById(this.name) as HTMLCanvasElement;
+        if (cnv != null)
+            this.canvas = cnv;
+        let dt = this.game.drawingTool;
+        dt.prepare(this.canvas);
+        dt.putImage(
+            this.canvas, this.image,
+            this.x, this.y,
+            this.width, this.height
+        );
     }
 
-    get visible(){
+    get visible() {
         return this.canvas.classList.contains("hide");
     }
 
-    set visible(b:boolean){
-        if(b)
+    set visible(b: boolean) {
+        if (b)
             this.canvas.classList.add("hide");
         else
             this.canvas.classList.remove("hide");
