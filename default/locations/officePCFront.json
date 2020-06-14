@@ -24,6 +24,15 @@
             "y": 1700,
             "width":100,
             "height":100
+        },
+        {
+            "name": "button_rotate",
+            "src": "img/inventory_buttons/rotate.svg",
+            "onClick": "",
+            "x": 100,
+            "y": 1550,
+            "width":150,
+            "height":150
         }
     ]
 }
