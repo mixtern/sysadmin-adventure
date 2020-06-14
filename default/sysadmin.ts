@@ -51,7 +51,7 @@ game.commands.set("connect_0L", {
 
 function cableFollow(e: MouseEvent) {
     let elapsed = Date.now() - data.lastMove;
-    if (elapsed < 50) return;
+    if (elapsed < 25) return;
     var t = data.cable as HTMLElement,
         rectangle = t.parentElement.getBoundingClientRect();
     if (t == null)

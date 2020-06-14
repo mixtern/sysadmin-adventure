@@ -82,9 +82,13 @@ var Loader = /** @class */ (function () {
         var _this = this;
         var img = new Image();
         this.queue.push(url);
-        img.addEventListener("load", function () { return setTimeout(function () {
-            _this.queue["remove"](url);
-        }, LOAD_DELAY); });
+        var qUpdate = function () {
+            if (img.complete)
+                _this.queue["remove"](url);
+            else
+                setTimeout(qUpdate, LOAD_DELAY);
+        };
+        img.addEventListener("load", function () { return setTimeout(qUpdate, LOAD_DELAY); });
         img.src = url;
         return img;
     };
@@ -111,7 +115,7 @@ var Loader = /** @class */ (function () {
 var Game = /** @class */ (function () {
     function Game(loader, url) {
         this.isMapReady = false;
-        this.drawingTool = new DrawingTool(this);
+        this.drawingTool = new DrawingTool();
         this.commands = new Map();
         this.Loader = loader;
         this.Locations = new Map();
@@ -175,6 +179,7 @@ var Game = /** @class */ (function () {
         var _this = this;
         if (this.isMapReady)
             return;
+        console.log("loading map");
         var map = document.getElementById("minimap");
         map.style.backgroundImage = "url(\"" + this.mapData["background"] + "\")";
         map.style.width = this.mapData["size"]["width"] + "px";
@@ -201,6 +206,8 @@ var Game = /** @class */ (function () {
         var loc = this.Locations.get(this.CurrentLocation);
         var bgr = document.getElementById("background");
         this.drawingTool.putImage(bgr, loc.background);
+        console.log(loc);
+        console.log(loc.background);
         var items = document.getElementById("items");
         items.innerHTML = '';
         items.removeEventListener("click", this.listener);
@@ -216,6 +223,7 @@ var Game = /** @class */ (function () {
                 var alpha = c.getContext("2d").getImageData(x, y, 1, 1).data[3];
                 if (alpha > 0) {
                     loc.items.get(c.id).click();
+                    break;
                 }
             }
         };
@@ -235,7 +243,6 @@ var GameLocation = /** @class */ (function () {
     function GameLocation(loader, game) {
         this.game = game;
         this.loader = loader;
-        this.images = new Map();
         this.status = Status.LOADING;
         this.items = new Map();
     }
@@ -273,8 +280,7 @@ var GameItem = /** @class */ (function () {
     return GameItem;
 }());
 var DrawingTool = /** @class */ (function () {
-    function DrawingTool(game) {
-        this.game = game;
+    function DrawingTool() {
     }
     DrawingTool.prototype.setResolution = function (resolution) {
         this.width = resolution["width"];
@@ -289,7 +295,6 @@ var DrawingTool = /** @class */ (function () {
         canvas.getContext("2d").drawImage(image, posX, posY, isNaN(width) ? canvas.width : width, isNaN(height) ? canvas.height : height);
     };
     DrawingTool.prototype.prepare = function (canvas) {
-        var computed = window.getComputedStyle(canvas);
         canvas.width = this.width;
         canvas.height = this.height;
         var ctx = canvas.getContext('2d');

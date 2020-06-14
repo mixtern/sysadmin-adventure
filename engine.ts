@@ -88,9 +88,13 @@ class Loader {
     getImage(url: string) {
         let img = new Image();
         this.queue.push(url);
-        img.addEventListener("load", () => setTimeout(() => {
-            this.queue["remove"](url);
-        }, LOAD_DELAY));
+        var qUpdate = () => {
+            if (img.complete)
+                this.queue["remove"](url);
+            else
+                setTimeout(qUpdate, LOAD_DELAY);
+        };
+        img.addEventListener("load", () => setTimeout(qUpdate, LOAD_DELAY));
         img.src = url;
         return img;
     }
@@ -122,7 +126,7 @@ class Game {
     CurrentLocation: string;
     mapData: object;
     isMapReady: boolean = false;
-    private drawingTool = new DrawingTool(this);
+    private drawingTool = new DrawingTool();
     commands: Map<string, IGameCommand>;
     private listener: EventListener;
 
@@ -166,7 +170,7 @@ class Game {
         this.Loader.onEmptyCallbacks.push(() => {
             let t = this;
             t.loadLocation(t.CurrentLocation);
-            console.debug('STARTING DEFAULT LOCATION')
+            console.debug('STARTING DEFAULT LOCATION');
             this.Script.nextScript();
         });
         data["locations"].forEach((name: string) => {
@@ -184,6 +188,7 @@ class Game {
     loadMap() {
         if (this.isMapReady)
             return;
+        console.log("loading map");
         let map = document.getElementById("minimap");
         map.style.backgroundImage = `url("${this.mapData["background"]}")`;
         map.style.width = this.mapData["size"]["width"] + "px";
@@ -210,6 +215,8 @@ class Game {
         let loc = this.Locations.get(this.CurrentLocation) as GameLocation;
         let bgr = document.getElementById("background") as HTMLCanvasElement;
         this.drawingTool.putImage(bgr, loc.background);
+        console.log(loc);
+        console.log(loc.background);
         let items = document.getElementById("items");
         items.innerHTML = '';
         items.removeEventListener("click", this.listener);
@@ -227,6 +234,7 @@ class Game {
                 let alpha = c.getContext("2d").getImageData(x, y, 1, 1).data[3];
                 if (alpha > 0) {
                     loc.items.get(c.id).click();
+                    break;
                 }
             }
         }
@@ -252,7 +260,6 @@ interface IGameCommand {
 
 class GameLocation {
     game: Game;
-    images: Map<string, HTMLImageElement>;
     background: HTMLImageElement;
     status: Status;
     loader: Loader;
@@ -261,7 +268,6 @@ class GameLocation {
     constructor(loader: Loader, game: Game) {
         this.game = game;
         this.loader = loader;
-        this.images = new Map();
         this.status = Status.LOADING;
         this.items = new Map();
     }
@@ -311,7 +317,6 @@ class GameItem {
 }
 
 class DrawingTool {
-    private game: Game;
     width: number;
     height: number;
 
@@ -328,11 +333,10 @@ class DrawingTool {
         this.prepare(canvas);
         canvas.getContext("2d").drawImage(image, posX, posY,
             isNaN(width) ? canvas.width : width,
-            isNaN(height) ? canvas.height : height);
+            isNaN(height) ? canvas.height : height)
     }
 
     prepare(canvas: HTMLCanvasElement) {
-        let computed = window.getComputedStyle(canvas);
         canvas.width = this.width;
         canvas.height = this.height;
         let ctx = canvas.getContext('2d');
@@ -343,10 +347,6 @@ class DrawingTool {
         let cnv = document.createElement('canvas') as HTMLCanvasElement;
         cnv.id = id;
         return cnv;
-    }
-
-    constructor(game: Game) {
-        this.game = game;
     }
 }
 
