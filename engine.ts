@@ -255,6 +255,27 @@ class Game {
 }
 
 class GameInventory {
+    items:Array<GameInventoryItem> = [];
+    game:Game;
+
+    constructor(game:Game,data:Array<object>){
+        this.game = game;
+        data.forEach(itemData => {
+            this.items.push(new GameInventoryItem(game,itemData))
+        });
+    };
+}
+
+class GameInventoryItem{
+    unique:boolean;
+    image:HTMLImageElement;
+    count:number;
+
+    constructor(game:Game,data:object){
+        this.unique = !!data["unique"];
+        this.count = data["count"];
+        this.image = game.Loader.getImage(data["src"]);
+    }
 
 }
 

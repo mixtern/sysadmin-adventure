@@ -4,7 +4,6 @@
 let data = {
     connected: [],
     currentPC: {},
-    lastMove: Date.now(),
     cable: {}
 }
 
@@ -50,16 +49,12 @@ game.commands.set("connect_0L", {
 })
 
 function cableFollow(e: MouseEvent) {
-    let elapsed = Date.now() - data.lastMove;
-    if (elapsed < 25) return;
     var t = data.cable as HTMLElement,
         rectangle = t.parentElement.getBoundingClientRect();
     if (t == null)
         return;
     requestAnimationFrame(() => {
-        // t.style.left = e.pageX + "px";
         t.style.left = (e.pageX - rectangle.left - rectangle.width * 0.7125) + "px";
-        // t.style.top = e.pageY + "px";
         t.style.top = (e.pageY - rectangle.top - rectangle.height * 0.5) + "px";
     })
 }
@@ -98,6 +93,20 @@ game.commands.set("backToOffice", {
     Execute(game: Game) {
         window.removeEventListener("mousemove", cableFollow);
         game.loadLocation("office");
+    }
+})
+
+game.commands.set("toPCBack", {
+    Execute(game: Game) {
+        window.addEventListener("mousemove", cableFollow);
+        game.loadLocation("officePCBack");
+    }
+})
+
+game.commands.set("toPCFront", {
+    Execute(game: Game) {
+        window.removeEventListener("mousemove", cableFollow);
+        game.loadLocation("officePCFront");
     }
 })
 

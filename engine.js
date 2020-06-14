@@ -247,9 +247,24 @@ var Game = /** @class */ (function () {
     return Game;
 }());
 var GameInventory = /** @class */ (function () {
-    function GameInventory() {
+    function GameInventory(game, data) {
+        var _this = this;
+        this.items = [];
+        this.game = game;
+        data.forEach(function (itemData) {
+            _this.items.push(new GameInventoryItem(game, itemData));
+        });
     }
+    ;
     return GameInventory;
+}());
+var GameInventoryItem = /** @class */ (function () {
+    function GameInventoryItem(game, data) {
+        this.unique = !!data["unique"];
+        this.count = data["count"];
+        this.image = game.Loader.getImage(data["src"]);
+    }
+    return GameInventoryItem;
 }());
 var GameLocation = /** @class */ (function () {
     function GameLocation(loader, game) {

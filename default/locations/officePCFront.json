@@ -28,7 +28,7 @@
         {
             "name": "button_rotate",
             "src": "img/inventory_buttons/rotate.svg",
-            "onClick": "",
+            "onClick": "toPCBack",
             "x": 100,
             "y": 1550,
             "width":150,

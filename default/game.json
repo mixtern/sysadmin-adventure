@@ -68,5 +68,14 @@
             }
         ]
     },
+    "inventory": [
+        {
+            "unique": false,
+            "name": "rj45",
+            "src": "img/pc_back/pc_rj45.svg",
+            "count": 2,
+            "usage":"equipRJ45"
+        }
+    ],
     "externalHandler": "default/sysadmin.js"
 }

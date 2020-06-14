@@ -3,7 +3,6 @@
 var data = {
     connected: [],
     currentPC: {},
-    lastMove: Date.now(),
     cable: {}
 };
 game.commands.set("start", {
@@ -43,16 +42,11 @@ game.commands.set("connect_0L", {
     }
 });
 function cableFollow(e) {
-    var elapsed = Date.now() - data.lastMove;
-    if (elapsed < 25)
-        return;
     var t = data.cable, rectangle = t.parentElement.getBoundingClientRect();
     if (t == null)
         return;
     requestAnimationFrame(function () {
-        // t.style.left = e.pageX + "px";
         t.style.left = (e.pageX - rectangle.left - rectangle.width * 0.7125) + "px";
-        // t.style.top = e.pageY + "px";
         t.style.top = (e.pageY - rectangle.top - rectangle.height * 0.5) + "px";
     });
 }
@@ -88,6 +82,18 @@ game.commands.set("backToOffice", {
     Execute: function (game) {
         window.removeEventListener("mousemove", cableFollow);
         game.loadLocation("office");
+    }
+});
+game.commands.set("toPCBack", {
+    Execute: function (game) {
+        window.addEventListener("mousemove", cableFollow);
+        game.loadLocation("officePCBack");
+    }
+});
+game.commands.set("toPCFront", {
+    Execute: function (game) {
+        window.removeEventListener("mousemove", cableFollow);
+        game.loadLocation("officePCFront");
     }
 });
 game.commands.set("talk", {
