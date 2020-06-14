@@ -1,10 +1,22 @@
 /// <reference path="./engine.ts" />
 
+const remote = require('electron').remote;
+
+let min = () => remote.getCurrentWindow().minimize();
+let max = () => {
+    var window = remote.getCurrentWindow();
+    if (!window.isMaximized()) {
+        window.maximize();
+    } else {
+        window.unmaximize();
+    }
+}
+let cls = () => remote.getCurrentWindow().close();
+
 let game: Game;
 
 window.addEventListener("load", () => {
-    var l = new Loader();
-    game = l.getGame(new URL('default/game.json', window.location.href).href)
+    game = new Game(new URL('default/game.json', window.location.href).href);
 });
 
 function full() {
@@ -31,7 +43,7 @@ function meme_test() {
     game.Script.nextScript()
 }
 
-function test_canvas(cnv: HTMLCanvasElement, x, y,regionSize) {
+function test_canvas(cnv: HTMLCanvasElement, x, y, regionSize) {
     let ctx = cnv.getContext("2d");
     let canvas = document.createElement("canvas");
     canvas.id = "test";
@@ -42,8 +54,8 @@ function test_canvas(cnv: HTMLCanvasElement, x, y,regionSize) {
     let ctx2 = canvas.getContext("2d");
     let xx = Math.max(0, x - regionSize);
     let yy = Math.max(0, y - regionSize);
-    let width = Math.min(3200, x + regionSize)-xx;
-    let height = Math.min(1800, y + regionSize)-yy;
-    let data = ctx.getImageData(xx,yy,width,height);
-    ctx2.putImageData(data,0,0);
+    let width = Math.min(3200, x + regionSize) - xx;
+    let height = Math.min(1800, y + regionSize) - yy;
+    let data = ctx.getImageData(xx, yy, width, height);
+    ctx2.putImageData(data, 0, 0);
 }

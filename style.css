@@ -14,7 +14,7 @@ body,
 div#content,
 img#bgr,
 canvas {
-    border    : none;
+    border  : none;
     width   : 100%;
     height  : 100%;
     overflow: hidden;
@@ -24,6 +24,10 @@ canvas {
     position: absolute;
     top     : 0;
     left    : 0;
+}
+
+button:focus {
+    outline: 0;
 }
 
 div#content {
@@ -51,15 +55,18 @@ div {
 }
 
 div#grab {
-    width                 : 100%;
-    height                : 30px;
-    background-color      : black;
-    opacity               : 0.5;
+    width              : 100%;
+    height             : 30px;
+    background-color   : black;
+    opacity            : 0.5;
     -webkit-user-select: none;
-    -webkit-app-region    : drag;
-    position              : fixed;
-    top                   : 0;
-    left                  : 0;
+    -webkit-app-region : drag;
+    position           : fixed;
+    top                : 0;
+    left               : 0;
+    display            : flex;
+    align-items        : center;
+    justify-content    : flex-end;
 }
 
 div#grab * {
@@ -93,7 +100,7 @@ div#items,
 }
 
 .item.active {
-    filter        : drop-shadow(-1px 1px #6f0) drop-shadow(1px 1px #6f0) drop-shadow(1px -1px #6f0) drop-shadow(-1px -1px #6f0);
+    filter: drop-shadow(-1px 1px #6f0) drop-shadow(1px 1px #6f0) drop-shadow(1px -1px #6f0) drop-shadow(-1px -1px #6f0);
 }
 
 div#minimap {
@@ -163,4 +170,18 @@ button.fullscreen {
 
 button.fullscreen.pressed {
     background-image: url("img/decrease-size-svgrepo-com.svg");
+}
+
+button.window-control {
+    float       : right;
+    width       : 28px;
+    height      : 28px;
+    margin-right: 2px;
+}
+
+button.window-control img,
+button.window-control svg {
+    background-color: white;
+    width           : 100%;
+    height          : 100%;
 }

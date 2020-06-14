@@ -47,10 +47,9 @@ var Loader = /** @class */ (function () {
         return xhr;
     };
     ;
-    Loader.prototype.getGame = function (url) {
+    Loader.prototype.getGame = function (url, game) {
         var _this = this;
         this.queue.push(url);
-        var game = new Game(this, url);
         var xhr = this.get(url);
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
@@ -61,7 +60,6 @@ var Loader = /** @class */ (function () {
             }
         };
         game.Script = null;
-        return game;
     };
     Loader.prototype.getGameLocation = function (game, url) {
         var _this = this;
@@ -113,9 +111,11 @@ var Loader = /** @class */ (function () {
 }());
 ;
 var Game = /** @class */ (function () {
-    function Game(loader, url) {
+    function Game(url, loader) {
+        if (loader === void 0) { loader = new Loader(); }
         this.isMapReady = false;
         this.drawingTool = new DrawingTool();
+        loader.getGame(url, this);
         this.commands = new Map();
         this.Loader = loader;
         this.Locations = new Map();
@@ -271,6 +271,22 @@ var GameItem = /** @class */ (function () {
         this.name = !!data["name"] ? data["name"] : data["src"];
         this.image = loc.loader.getImage(data["src"]);
     }
+    GameItem.prototype.putImage = function (image) {
+        this.image = image;
+    };
+    Object.defineProperty(GameItem.prototype, "visible", {
+        get: function () {
+            return this.canvas.classList.contains("hide");
+        },
+        set: function (b) {
+            if (b)
+                this.canvas.classList.add("hide");
+            else
+                this.canvas.classList.remove("hide");
+        },
+        enumerable: false,
+        configurable: true
+    });
     GameItem.prototype.click = function () {
         var _this = this;
         this.onclick.forEach(function (command) {

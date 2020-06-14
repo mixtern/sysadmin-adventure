@@ -1,8 +1,19 @@
 /// <reference path="./engine.ts" />
+var remote = require('electron').remote;
+var min = function () { return remote.getCurrentWindow().minimize(); };
+var max = function () {
+    var window = remote.getCurrentWindow();
+    if (!window.isMaximized()) {
+        window.maximize();
+    }
+    else {
+        window.unmaximize();
+    }
+};
+var cls = function () { return remote.getCurrentWindow().close(); };
 var game;
 window.addEventListener("load", function () {
-    var l = new Loader();
-    game = l.getGame(new URL('default/game.json', window.location.href).href);
+    game = new Game(new URL('default/game.json', window.location.href).href);
 });
 function full() {
     var button = document.getElementById("fs");

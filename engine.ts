@@ -54,9 +54,8 @@ class Loader {
         return xhr;
     };
 
-    getGame(url: string) {
+    getGame(url: string, game:Game) {
         this.queue.push(url);
-        let game = new Game(this, url);
         let xhr = this.get(url);
         xhr.onreadystatechange = () => {
             if (xhr.readyState == 4 && xhr.status == 200) {
@@ -67,7 +66,6 @@ class Loader {
             }
         };
         game.Script = null;
-        return game;
     }
 
     getGameLocation(game: Game, url: string) {
@@ -159,7 +157,8 @@ class Game {
         return (this.showQuest || this.showMinimap);
     }
 
-    constructor(loader, url) {
+    constructor(url:string,loader:Loader=new Loader()) {
+        loader.getGame(url,this);
         this.commands = new Map<string, IGameCommand>();
         this.Loader = loader;
         this.Locations = new Map<String, GameLocation>();
@@ -282,6 +281,7 @@ class GameLocation {
 }
 
 class GameItem {
+    canvas:HTMLCanvasElement;
     location: GameLocation;
     game: Game;
     onclick: Array<string>;
@@ -307,6 +307,22 @@ class GameItem {
             this.onclick.push(data["onClick"]);
         this.name = !!data["name"] ? data["name"] : data["src"];
         this.image = loc.loader.getImage(data["src"]);
+    }
+
+    putImage(image:HTMLImageElement){
+        this.image = image;
+        
+    }
+
+    get visible(){
+        return this.canvas.classList.contains("hide");
+    }
+
+    set visible(b:boolean){
+        if(b)
+            this.canvas.classList.add("hide");
+        else
+            this.canvas.classList.remove("hide");
     }
 
     click() {
