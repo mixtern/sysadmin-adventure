@@ -1,0 +1,29 @@
+{
+    "background": "img/default.svg",
+    "items": [
+        {
+            "src": "img/pc_back/table.svg"
+        },
+        {
+            "src": "img/pc_front/screen.svg"
+        },
+        {
+            "src": "img/pc_front/mouse.svg"
+        },
+        {
+            "src": "img/pc_front/keyboard.svg"
+        },
+        {
+            "src": "img/pc_front/pc.svg"
+        },
+        {
+            "name": "button_back",
+            "src": "img/back.svg",
+            "onClick": "backToOffice",
+            "x": 3000,
+            "y": 1700,
+            "width":100,
+            "height":100
+        }
+    ]
+}

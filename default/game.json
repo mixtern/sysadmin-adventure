@@ -5,7 +5,8 @@
     },
     "locations": [
         "office",
-        "officePC",
+        "officePCFront",
+        "officePCBack",
         "server",
         "hq",
         "shop",
