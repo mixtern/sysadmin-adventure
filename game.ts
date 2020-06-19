@@ -1,18 +1,5 @@
 /// <reference path="./engine.ts" />
 
-const remote = require('electron').remote;
-
-let min = () => remote.getCurrentWindow().minimize();
-let max = () => {
-    var window = remote.getCurrentWindow();
-    if (!window.isMaximized()) {
-        window.maximize();
-    } else {
-        window.unmaximize();
-    }
-}
-let cls = () => remote.getCurrentWindow().close();
-
 let game: Game;
 
 window.addEventListener("load", () => {

@@ -1,6 +1,18 @@
 window.addEventListener("load", () => {
     if (navigator.userAgent.toLowerCase().indexOf(' electron/') > -1) {
         document.getElementById("grab").classList.remove("hide");
+        const remote = require('electron').remote;
+
+        let min = () => remote.getCurrentWindow().minimize();
+        let max = () => {
+            var window = remote.getCurrentWindow();
+            if (!window.isMaximized()) {
+                window.maximize();
+            } else {
+                window.unmaximize();
+            }
+        }
+        let cls = () => remote.getCurrentWindow().close();
     }
 })
 
@@ -255,23 +267,23 @@ class Game {
 }
 
 class GameInventory {
-    items:Array<GameInventoryItem> = [];
-    game:Game;
+    items: Array<GameInventoryItem> = [];
+    game: Game;
 
-    constructor(game:Game,data:Array<object>){
+    constructor(game: Game, data: Array<object>) {
         this.game = game;
         data.forEach(itemData => {
-            this.items.push(new GameInventoryItem(game,itemData))
+            this.items.push(new GameInventoryItem(game, itemData))
         });
     };
 }
 
-class GameInventoryItem{
-    unique:boolean;
-    image:HTMLImageElement;
-    count:number;
+class GameInventoryItem {
+    unique: boolean;
+    image: HTMLImageElement;
+    count: number;
 
-    constructor(game:Game,data:object){
+    constructor(game: Game, data: object) {
         this.unique = !!data["unique"];
         this.count = data["count"];
         this.image = game.Loader.getImage(data["src"]);
@@ -314,7 +326,7 @@ class GameItem {
     image: HTMLImageElement = document.createElement("img");
     src: string;
     name: string;
-    
+
     get active() {
         this.updateCanvas();
         return this.canvas.classList.contains("active");
@@ -328,7 +340,7 @@ class GameItem {
             this.canvas.classList.remove("active");
     }
 
-    private _active:boolean
+    private _active: boolean
     x: number;
     y: number;
     width: number;
