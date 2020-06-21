@@ -1,6 +1,18 @@
 window.addEventListener("load", function () {
     if (navigator.userAgent.toLowerCase().indexOf(' electron/') > -1) {
         document.getElementById("grab").classList.remove("hide");
+        var remote_1 = require('electron').remote;
+        var min = function () { return remote_1.getCurrentWindow().minimize(); };
+        var max = function () {
+            var window = remote_1.getCurrentWindow();
+            if (!window.isMaximized()) {
+                window.maximize();
+            }
+            else {
+                window.unmaximize();
+            }
+        };
+        var cls = function () { return remote_1.getCurrentWindow().close(); };
     }
 });
 var LOAD_DELAY = 500;
