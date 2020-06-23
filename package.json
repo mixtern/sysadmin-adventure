@@ -1,6 +1,6 @@
 {
     "name": "sysadmin-adventure",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "2D point&click sysadmin simulator",
     "main": "index.js",
     "scripts": {
