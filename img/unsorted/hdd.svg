@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:export-ydpi="216"
+   inkscape:export-xdpi="216"
+   inkscape:export-filename="/home/osa413/Изображения/project/hdd.svg.png"
+   id="svg6604"
+   sodipodi:docname="hdd.svg"
+   viewBox="0 0 400 400"
+   version="1.1"
+   inkscape:version="1.0alpha (9f82346, 2019-04-27)">
+  <defs
+     id="defs6606">
+    <linearGradient
+       id="linearGradient3998">
+      <stop
+         id="stop4000"
+         style="stop-color:#4c4c4c"
+         offset="0" />
+      <stop
+         id="stop4014"
+         style="stop-color:#000000"
+         offset=".022713" />
+      <stop
+         id="stop4012"
+         style="stop-color:#000000"
+         offset=".34055" />
+      <stop
+         id="stop4010"
+         style="stop-color:#4d4d4d"
+         offset=".40303" />
+      <stop
+         id="stop4006"
+         style="stop-color:#000000"
+         offset=".44924" />
+      <stop
+         id="stop4008"
+         style="stop-color:#000000"
+         offset=".95638" />
+      <stop
+         id="stop4002"
+         style="stop-color:#a3a3a3"
+         offset="1" />
+    </linearGradient>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     bordercolor="#666666"
+     inkscape:pageshadow="2"
+     inkscape:window-y="24"
+     pagecolor="#ffffff"
+     inkscape:window-height="744"
+     inkscape:window-maximized="1"
+     inkscape:zoom="1"
+     inkscape:window-x="65"
+     showgrid="false"
+     borderopacity="1.0"
+     inkscape:current-layer="layer1"
+     inkscape:cx="126.35921"
+     inkscape:cy="167.77965"
+     inkscape:window-width="1301"
+     inkscape:pageopacity="0.0"
+     inkscape:document-units="px"
+     inkscape:document-rotation="0" />
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     transform="translate(0 -652.36)">
+    <path
+       d="m 236.23,724.82 134.53,80.699 c 1.6958,0.95785 1.736,1.6704 1.7406,4.7314 l 0.045,29.612 -135.27,-83.568 z"
+       inkscape:connector-curvature="0"
+       style="opacity:1;fill:#4c4c4c;stop-opacity:1;fill-opacity:1"
+       sodipodi:nodetypes="cccccc"
+       id="path3054" />
+    <path
+       inkscape:connector-curvature="0"
+       style="opacity:1;fill:#4c4c4c;fill-opacity:1;stop-opacity:1"
+       sodipodi:nodetypes="cccccccccccccc"
+       d="M 235.84,721.71 37.43,850.08 c -0.255942,0.20308 -0.264891,0.45516 -0.26167,0.78471 0,0 0.04373,18.42078 -0.24023,27.631 -0.07996,4.2938 -0.35298,3.4385 2.7457,5.4334 40.203,25.884 83.252,56.395 125.65,85.353 4.3775,4.0541 12.345,3.5183 16.164,0.94586 30.162,-20.317 139.83,-96.83 190.07,-130.83 l -0.53414,-30.409 c -0.45268,-1.3962 0.31023,-1.4813 -2.2348,-2.2035 l -194.86,125.37 c -36.52,-25.06 -74.682,-40.02 -111.73,-64.64 l 174.24,-111.68 z"
+       id="path3843" />
+    <path
+       d="m 238.12,722.54 127.37,77.503 c 0.50099,0.35012 0.46986,0.48413 0.33217,0.77504 -4.8801,3.7857 -3.0309,4.8213 1.4904,9.0564 0.0515,0.89435 0.007,0.83047 -0.60852,1.4015 l -185.05,127.13 c -0.85102,0.15855 -0.97047,-0.0145 -1.4519,-0.3451 -5.2041,-3.5727 -7.7767,-2.3541 -12.237,0.29607 -0.5685,0.33774 -1.6184,0.36904 -2.291,-0.17705 l -117.8,-78.77 c 0.04976,-5.7304 0.07403,-11.461 0.09815,-17.192 l 181.29,-118.88 c 4.1096,-3.237 4.6876,-3.3277 8.8647,-0.78595 z"
+       inkscape:connector-curvature="0"
+       style="opacity:1;fill:#d8d8d8;fill-opacity:1;stop-opacity:1"
+       sodipodi:nodetypes="ccccccssccccc"
+       id="path3845" />
+    <path
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="zcssccszccccssscczcscssccz"
+       d="m 104.63039,814.76351 c 7.50944,-10.0496 23.82881,-16.8978 23.82881,-16.8978 10.17383,-6.07791 27.71217,-7.99051 32.52727,-12.12168 2.99898,-2.57297 0.0629,-5.16048 0.18793,-7.28807 0.21292,-3.62278 2.91352,-3.26198 4.05716,-4.40606 l 48.90875,-31.67483 c 0.62158,-0.29337 0.58814,-0.26487 0.96923,-0.27351 3.92081,-0.0888 13.62436,-1.10271 18.05025,-2.61262 4.4261,-1.50997 4.06486,-2.83928 8.76212,-1.83445 l 38.04723,22.31996 c -1.15738,8.8597 2.89083,13.56863 18.64145,12.49702 l 32.28938,19.6994 c 3.01704,1.65784 3.80671,2.29654 3.94988,3.75561 0.13833,1.41175 -2.08443,4.92193 -2.09776,6.31646 -0.0262,2.73443 1.91234,4.66003 3.94195,5.61799 1.74641,0.82436 3.85869,3.13003 -0.71334,7.01031 l -45.49677,31.29816 c -7.48852,3.68182 -7.8143,2.9036 -18.57251,2.33751 -10.7582,-0.56603 -10.82362,12.46596 -17.563,20.56419 0,0 -3.7838,5.64353 -8.17555,7.89359 -17.24912,8.83701 -50.71056,30.1021 -54.9111,32.99645 -3.51221,2.63817 -5.72108,2.47804 -7.7306,1.90115 -14.64421,-4.20474 -17.4282,4.63316 -23.35523,1.78593 -1.66524,-0.79981 -0.59541,-0.316 -5.18163,-3.34811 -18.44805,-11.32144 -37.15294,-21.4402 -54.09391,-39.79838 -18.682196,-30.19021 -3.776525,-45.68841 3.73292,-55.73933 z"
+       style="opacity:1;fill:#d8d8d8;fill-opacity:1;stroke:#000000;stroke-width:2;stroke-opacity:1;stop-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       id="path3902" />
+    <ellipse
+       ry="3.6973841"
+       rx="4.9896088"
+       cy="803.98901"
+       cx="355.27887"
+       style="opacity:1;fill:#1a1a1a;stroke-width:0.0516734;stop-opacity:1"
+       id="path3857" />
+    <ellipse
+       ry="3.6973841"
+       rx="4.9896088"
+       cy="864.04901"
+       cx="273.50885"
+       style="opacity:1;fill:#1a1a1a;stroke-width:0.0516734;stop-opacity:1"
+       id="path3859" />
+    <ellipse
+       ry="3.2253749"
+       rx="4.3526802"
+       cy="726.40845"
+       cx="233.74458"
+       style="opacity:1;fill:#1a1a1a;stroke-width:0.045077;stop-opacity:1"
+       id="path3861" />
+    <ellipse
+       ry="3.4229496"
+       rx="4.6191859"
+       cy="784.82776"
+       cx="145.8405"
+       style="opacity:1;fill:#1a1a1a;stroke-width:0.0478376;stop-opacity:1"
+       id="path3863" />
+    <ellipse
+       ry="3.8929327"
+       rx="5.2534714"
+       cy="850.53113"
+       cx="59.46793"
+       style="opacity:1;fill:#1a1a1a;stroke-width:0.0544062;stop-opacity:1"
+       id="path3865" />
+    <ellipse
+       ry="3.8929327"
+       rx="5.2534714"
+       cy="928.09113"
+       cx="172.86594"
+       style="opacity:1;fill:#1a1a1a;stroke-width:0.0544062;stop-opacity:1"
+       id="path3867" />
+    <ellipse
+       ry="2.2448218"
+       rx="3.0293486"
+       cy="851.82617"
+       cx="42.696602"
+       style="opacity:1;fill:#b3b3b3;stroke-width:0.0313727;stop-opacity:1"
+       id="path3974" />
+    <path
+       inkscape:connector-curvature="0"
+       style="opacity:1;fill:#ffffff;stroke:#b3b3b3;stroke-width:0.22913;stop-opacity:1"
+       sodipodi:nodetypes="cssccsccscc"
+       d="m 107.5,828.96 87.86,-58.37 c 3.0431,-2.0217 6.8315,-1.5482 9.5189,0.18184 l 27.706,17.835 0.30602,21.544 40.125,24.102 c 1.9432,1.1672 1.8784,2.4884 1.1344,3.4453 -30.413,22.144 -63.635,45.072 -94.56,66.685 -2.9946,2.0928 -6.8573,1.5877 -9.5189,-0.18184 l -63.312,-42.092 c 0.3353,-19.116 0.0834,-9.8025 0.74117,-33.148 z"
+       id="path3984" />
+    <path
+       inkscape:connector-curvature="0"
+       style="opacity:1;fill:#f5ea4f;stop-opacity:1"
+       d="m 107.09,843.71 c -0.13024,5.0954 -0.12059,6.0384 -0.3373,18.393 l 37.556,24.966 17.553,-11.468 -54.772,-31.891 z"
+       id="rect3992" />
+    <ellipse
+       ry="14.084463"
+       rx="21.406086"
+       cy="802.3642"
+       cx="262.53708"
+       style="opacity:1;fill:#ffffff;stroke-width:0.208894;stop-opacity:1"
+       id="path3826" />
+  </g>
+  <metadata
+     id="metadata5744">
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" />
+        <dc:publisher>
+          <cc:Agent
+             rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title>Hard Disk</dc:title>
+        <dc:date>2011-04-06T02:52:47</dc:date>
+        <dc:description />
+        <dc:source>https://openclipart.org/detail/131323/hard-disk-by-ricardomaia-131323</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>ricardomaia</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>SATA</rdf:li>
+            <rdf:li>computer</rdf:li>
+            <rdf:li>disk</rdf:li>
+            <rdf:li>drive</rdf:li>
+            <rdf:li>hard</rdf:li>
+            <rdf:li>hard disk</rdf:li>
+            <rdf:li>hard drive</rdf:li>
+            <rdf:li>hdd</rdf:li>
+            <rdf:li>internal</rdf:li>
+            <rdf:li>photorealistic</rdf:li>
+            <rdf:li>secondary</rdf:li>
+            <rdf:li>storage</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</svg>
